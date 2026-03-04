@@ -2,18 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Pesanan;
+use App\Models\ManagementMeja;
 use Illuminate\Http\Request;
 
-class PesananController extends Controller
+class ManagementMejaController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        
-        return view('pesanan.index');
+        return view('meja.index');
     }
 
     /**
@@ -21,7 +20,7 @@ class PesananController extends Controller
      */
     public function create()
     {
-        return view('pesanan.create');
+        return view('meja.create');
     }
 
     /**
@@ -35,23 +34,23 @@ class PesananController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Pesanan $pesanan)
+    public function show(ManagementMeja $managementMeja)
     {
-        //
+        return view('meja.show');
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Pesanan $pesanan)
+    public function edit(ManagementMeja $managementMeja)
     {
-        //
+        return view('meja.edit');
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Pesanan $pesanan)
+    public function update(Request $request, ManagementMeja $managementMeja)
     {
         //
     }
@@ -59,7 +58,7 @@ class PesananController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Pesanan $pesanan)
+    public function destroy(ManagementMeja $managementMeja)
     {
         //
     }

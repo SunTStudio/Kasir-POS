@@ -2,18 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Pesanan;
+use App\Models\Kategori;
 use Illuminate\Http\Request;
 
-class PesananController extends Controller
+class KategoriController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        
-        return view('pesanan.index');
+        $kategoris = Kategori::all();
+        return view('kategori.index', compact('kategoris'));
     }
 
     /**
@@ -21,7 +21,7 @@ class PesananController extends Controller
      */
     public function create()
     {
-        return view('pesanan.create');
+        return view('kategori.create');
     }
 
     /**
@@ -29,13 +29,20 @@ class PesananController extends Controller
      */
     public function store(Request $request)
     {
-        //
+           $validated = $request->validate([
+                'name' => 'required',
+                'deskripsi' => 'required',
+            ]);
+            Kategori::create($validated);
+            return redirect()->route('kategori')->with('success', 'Kategori berhasil ditambahkan!');
+       
+
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Pesanan $pesanan)
+    public function show(Kategori $kategori)
     {
         //
     }
@@ -43,15 +50,15 @@ class PesananController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Pesanan $pesanan)
+    public function edit(Kategori $kategori)
     {
-        //
+        return view('kategori.edit');
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Pesanan $pesanan)
+    public function update(Request $request, Kategori $kategori)
     {
         //
     }
@@ -59,7 +66,7 @@ class PesananController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Pesanan $pesanan)
+    public function destroy(Kategori $kategori)
     {
         //
     }

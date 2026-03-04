@@ -11,11 +11,18 @@
     <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
+    <!-- Font Awesome (Public CDN) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
     {{-- Google Fonts --}}
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
         rel="stylesheet">
+
+    <!-- DataTables & Responsive CSS -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap5.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.5.0/css/responsive.bootstrap5.min.css">
 
     <style>
         body {
@@ -99,16 +106,26 @@
             <div class="sidebar-heading border-bottom bg-white text-primary"><i class="bi bi-shop me-2"></i>Resto POS
                 Admin</div>
             <div class="list-group list-group-flush">
-                <a class="list-group-item list-group-item-action bg-white" href="#!"><i
+                <a class="list-group-item list-group-item-action bg-white" href="{{ route('dashboard') }}"><i
                         class="bi bi-speedometer2 me-2"></i>Dashboard</a>
-                <a class="list-group-item list-group-item-action bg-white" href="#!"><i
-                        class="bi bi-cart4 me-2"></i>Pesanan (POS)</a>
-                <a class="list-group-item list-group-item-action bg-white" href="#!"><i
+                <a class="list-group-item list-group-item-action bg-white" href="{{ route('pesanan.create') }}"><i
+                        class="bi bi-cart4 me-2"></i>Buat Pesanan (POS)</a>
+                <a class="list-group-item list-group-item-action bg-white" href="{{ route('manajement.meja') }}"><i
                         class="bi bi-grid-3x3-gap me-2"></i>Manajemen Meja</a>
-                <a class="list-group-item list-group-item-action bg-white" href="#!"><i
+                        {{-- list pesanan --}}
+                <a class="list-group-item list-group-item-action bg-white" href="{{ route('pesanan') }}"><i
+                        class="bi bi-list-ul me-2"></i>List Pesanan</a>
+                <a class="list-group-item list-group-item-action bg-white" href="{{ route('produk') }}"><i
                         class="bi bi-book me-2"></i>Daftar Menu</a>
-                <a class="list-group-item list-group-item-action bg-white" href="#!"><i
+                <a class="list-group-item list-group-item-action bg-white" href="{{ route('keuangan') }}"><i
                         class="bi bi-cash-coin me-2"></i>Laporan Keuangan</a>
+                        {{-- kategori --}}
+
+                <a class="list-group-item list-group-item-action bg-white" href="{{ route('kategori') }}"><i
+                        class="bi bi-tags me-2"></i>Kategori</a>
+                        {{-- jenis Order --}}
+                <a class="list-group-item list-group-item-action bg-white" href="{{ route('jenis.order') }}"><i
+                        class="bi bi-card-list me-2"></i>Jenis Order</a>
                 <a class="list-group-item list-group-item-action bg-white" href="#!"><i
                         class="bi bi-gear me-2"></i>Pengaturan</a>
             </div>
@@ -160,6 +177,13 @@
 
     <!-- Bootstrap core JS-->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- jQuery & DataTables JS -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.7/js/dataTables.bootstrap5.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.5.0/js/dataTables.responsive.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.5.0/js/responsive.bootstrap5.min.js"></script>
 
     <!-- Core theme JS-->
     <script>
