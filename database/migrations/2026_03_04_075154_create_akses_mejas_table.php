@@ -8,15 +8,15 @@ return new class extends Migration
 {
     /**
      * Run the migrations.
-     */
+     */ 
     public function up(): void
     {
         Schema::create('akses_mejas', function (Blueprint $table) {
             $table->id();
         $table->foreignId('penjualan_id')->constrained('penjualans')->cascadeOnDelete();
-        $table->string('metode'); // cash/qris/card/dll
+        $table->foreignId('management_meja_id')->constrained('management_mejas')->cascadeOnDelete();
         $table->decimal('jumlah', 12, 2);
-        $table->string('gambar')->nullable();
+        $table->string('gambar')->nullable(); 
         $table->string('status')->default('pending');
         $table->timestamps();
         });

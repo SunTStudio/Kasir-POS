@@ -17,7 +17,7 @@ return new class extends Migration
             $table->text('deskripsi')->nullable();
             $table->foreignId('kategori_id')->constrained('kategoris')->cascadeOnDelete();
             $table->string('gambar')->nullable();
-            $table->decimal('harga', 12, 2);
+            $table->decimal('harga', 12, 2); 
             $table->boolean('status')->default(true);
             $table->timestamps();
         });

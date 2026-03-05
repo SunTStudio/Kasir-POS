@@ -1,4 +1,9 @@
 @extends('layouts.main')
+
+@push('styles')
+    {{-- DataTables CSS sudah ada di main layout --}}
+@endpush
+
 @section('content')
     <div class="card">
         <div class="card-body p-4">
@@ -11,8 +16,8 @@
                     <div class="bg-body-tertiary rounded p-3">
                         <div class="search">
                             {{-- buat input search, dan filter kategori dan terbaru dan telama --}}
-                            <form action="#" method="GET" class="row g-2">
-                                <div class="col-md-6">
+                            <form action="{{ route('pesanan.create') }}" method="GET" class="row g-2">
+                                <div class="col-12">
                                     <div class="input-group">
                                         <span class="input-group-text bg-white border-end-0" style="font-size: 0.8rem;">
                                             <i class="bi bi-search text-muted"></i>
@@ -22,139 +27,53 @@
                                             value="{{ request('search') }}">
                                     </div>
                                 </div>
-                                <div class="col-md-3">
-                                    <select name="category" class="form-select" style="font-size: 0.8rem;">
-                                        <option value="">Semua Kategori</option>
-                                        <option value="makanan" {{ request('category') == 'makanan' ? 'selected' : '' }}>
-                                            Makanan</option>
-                                        <option value="minuman" {{ request('category') == 'minuman' ? 'selected' : '' }}>
-                                            Minuman</option>
-                                        <option value="snack" {{ request('category') == 'snack' ? 'selected' : '' }}>
-                                            Cemilan</option>
-                                    </select>
-                                </div>
-                                <div class="col-md-3">
-                                    <select name="sort" class="form-select" style="font-size: 0.8rem;">
-                                        <option value="latest" {{ request('sort') == 'latest' ? 'selected' : '' }}>Terbaru
-                                        </option>
-                                        <option value="oldest" {{ request('sort') == 'oldest' ? 'selected' : '' }}>Terlama
-                                        </option>
-                                    </select>
-                                </div>
                             </form>
+                            <div class="kategori d-flex align-items-center mb-3 mt-2">
+                                <div class="d-flex gap-2 overflow-auto">
+                                    <button type="button" class="btn btn-success btn-sm rounded-pill px-3 category-filter"
+                                        data-category="all">Show All</button>
+                                    @foreach ($kategoris as $kat)
+                                        <button type="button"
+                                            class="btn btn-outline-secondary btn-sm rounded-pill px-3 category-filter"
+                                            data-category="{{ $kat->id }}">{{ $kat->name }}</button>
+                                    @endforeach
+                                </div>
+                            </div>
                         </div>
                         <hr>
                         {{-- ===================================================================================================== --}}
-                        <div class="kategori d-flex align-items-center mb-3">
-                            <div class="d-flex gap-2">
-                                <a href="#" class="btn btn-success btn-sm rounded-pill px-3">Show All</a>
-                                <a href="#" class="btn btn-outline-secondary btn-sm rounded-pill px-3">Makanan</a>
-                                <a href="#" class="btn btn-outline-secondary btn-sm rounded-pill px-3">Minuman</a>
-                                <a href="#" class="btn btn-outline-secondary btn-sm rounded-pill px-3">Cemilan</a>
-                            </div>
-                        </div>
+
                         <div class="produk">
                             <div class="row g-3">
-                                @php
-                                    $products = [
-                                        [
-                                            'id' => 1,
-                                            'name' => 'Nasi Goreng Spesial',
-                                            'category' => 'Makanan',
-                                            'price' => 25000,
-                                        ],
-                                        [
-                                            'id' => 2,
-                                            'name' => 'Ayam Bakar Madu',
-                                            'category' => 'Makanan',
-                                            'price' => 30000,
-                                        ],
-                                        [
-                                            'id' => 3,
-                                            'name' => 'Mie Goreng Jawa',
-                                            'category' => 'Makanan',
-                                            'price' => 22000,
-                                        ],
-                                        [
-                                            'id' => 4,
-                                            'name' => 'Sate Ayam Madura',
-                                            'category' => 'Makanan',
-                                            'price' => 28000,
-                                        ],
-                                        [
-                                            'id' => 5,
-                                            'name' => 'Rendang Daging',
-                                            'category' => 'Makanan',
-                                            'price' => 35000,
-                                        ],
-                                        ['id' => 6, 'name' => 'Es Teh Manis', 'category' => 'Minuman', 'price' => 5000],
-                                        [
-                                            'id' => 7,
-                                            'name' => 'Jus Jeruk Segar',
-                                            'category' => 'Minuman',
-                                            'price' => 12000,
-                                        ],
-                                        [
-                                            'id' => 8,
-                                            'name' => 'Kopi Susu Gula Aren',
-                                            'category' => 'Minuman',
-                                            'price' => 18000,
-                                        ],
-                                        ['id' => 9, 'name' => 'Es Campur', 'category' => 'Minuman', 'price' => 15000],
-                                        [
-                                            'id' => 10,
-                                            'name' => 'Matcha Latte',
-                                            'category' => 'Minuman',
-                                            'price' => 20000,
-                                        ],
-                                        [
-                                            'id' => 11,
-                                            'name' => 'Pisang Goreng Keju',
-                                            'category' => 'Cemilan',
-                                            'price' => 15000,
-                                        ],
-                                        [
-                                            'id' => 12,
-                                            'name' => 'Roti Bakar Coklat',
-                                            'category' => 'Cemilan',
-                                            'price' => 12000,
-                                        ],
-                                        [
-                                            'id' => 13,
-                                            'name' => 'Kentang Goreng',
-                                            'category' => 'Cemilan',
-                                            'price' => 10000,
-                                        ],
-                                        [
-                                            'id' => 14,
-                                            'name' => 'Dimsum Ayam',
-                                            'category' => 'Cemilan',
-                                            'price' => 18000,
-                                        ],
-                                        ['id' => 15, 'name' => 'Churros', 'category' => 'Cemilan', 'price' => 16000],
-                                    ];
-                                @endphp
-                                @foreach ($products as $product)
-                                    <div class="col-6 col-md-3">
+                                @foreach ($produks as $product)
+                                    <div class="col-6 col-md-3 product-item" data-category="{{ $product->kategori_id }}">
                                         <div class="card h-100 border-0 shadow-sm"
                                             style="border-radius: 12px; overflow: hidden;">
                                             <div class="position-relative">
-                                                <img src="{{ asset('produk/sample.png') }}" class="card-img-top"
-                                                    alt="..." style="height: 140px; object-fit: cover;">
+                                                @if ($product->gambar)
+                                                    <img src="{{ asset('img/produk/' . $product->gambar) }}"
+                                                        class="card-img-top" alt="{{ $product->name }}"
+                                                        style="height: 140px; object-fit: cover;">
+                                                @else
+                                                    <div class="bg-light d-flex align-items-center justify-content-center"
+                                                        style="height: 140px;">
+                                                        <i class="bi bi-image text-muted display-6"></i>
+                                                    </div>
+                                                @endif
                                                 <span
                                                     class="badge bg-white text-dark position-absolute top-0 start-0 m-2 shadow-sm"
-                                                    style="font-size: 0.75rem;">{{ $product['category'] }}</span>
+                                                    style="font-size: 0.75rem;">{{ $product->kategori->name ?? 'Umum' }}</span>
                                             </div>
                                             <div class="card-body p-3 d-flex flex-column">
-                                                <h6 class="card-title fw-bold mb-2 text-truncate">{{ $product['name'] }}
+                                                <h6 class="card-title fw-bold mb-2 text-truncate">{{ $product->name }}
                                                 </h6>
                                                 <div class="mt-auto d-flex justify-content-between align-items-center">
                                                     <span class="fw-bold text-primary">Rp
-                                                        {{ number_format($product['price'], 0, ',', '.') }}</span>
+                                                        {{ number_format($product->harga, 0, ',', '.') }}</span>
                                                     <button
                                                         class="btn btn-primary btn-sm rounded-circle d-flex align-items-center justify-content-center shadow-sm add-to-cart"
-                                                        data-id="{{ $product['id'] }}" data-name="{{ $product['name'] }}"
-                                                        data-price="{{ $product['price'] }}"
+                                                        data-id="{{ $product->id }}" data-name="{{ $product->name }}"
+                                                        data-price="{{ $product->harga }}"
                                                         style="width: 32px; height: 32px; border: none;">
                                                         <i class="bi bi-plus-lg"></i>
                                                     </button>
@@ -188,33 +107,33 @@
                         <div class="checkout">
                             {{-- buatkan select untuk pilih meja --}}
                             <div class="row g-2 mb-3">
-                                <div class="col-6">
-                                    <label class="small text-muted fw-bold mb-1">Dining Area</label>
-                                    <div class="input-group shadow-sm">
-                                        <span class="input-group-text bg-white border-end-0"><i
-                                                class="bi bi-shop-window text-primary"></i></span>
-                                        <select name="dining_area" id="dining_area" class="form-select border-start-0 ps-2"
-                                            style="font-size: 0.85rem; cursor: pointer;">
-                                            <option value="">Pilih Area</option>
-                                            @for ($i = 1; $i <= 5; $i++)
-                                                <option value="{{ $i }}">Area {{ $i }}</option>
-                                            @endfor
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-6">
+                                <div class="col col-lg-6" id="meja-container">
+
                                     <label class="small text-muted fw-bold mb-1">No. Meja</label>
+
+                                    <button type="button"
+                                        class="btn btn-outline-secondary w-100 text-start d-flex justify-content-between align-items-center"
+                                        data-bs-toggle="modal" data-bs-target="#modalPilihMeja">
+                                        <span id="selected-meja-text" class="text-truncate">Pilih Meja</span>
+                                        <i class="bi bi-grid-3x3-gap"></i>
+                                    </button>
+                                    {{-- Input hidden tidak diperlukan disini karena akan digenerate saat submit di modal checkout --}}
+
+                                </div>
+                                {{-- pilih jenis pemesanan (take way atau dine in atau reservasi) --}}
+                                <div class="col col-lg-6">
+                                    <label class="small text-muted fw-bold mb-1">Jenis Pemesanan</label>
                                     <div class="input-group shadow-sm">
                                         <span class="input-group-text bg-white border-end-0"><i
-                                                class="bi bi-hash text-primary"></i></span>
-                                        <select name="table_number" id="table_number"
+                                                class="bi bi-bag-fill"></i></span>
+                                        <select name="jenis_id_display" id="jenis_id_display"
                                             class="form-select border-start-0 ps-2"
                                             style="font-size: 0.85rem; cursor: pointer;">
-                                            <option value="">Pilih Meja</option>
-                                            @for ($i = 1; $i <= 10; $i++)
-                                                <option value="{{ $i }}">Meja {{ $i }}</option>
-                                            @endfor
-                                            <option value="takeaway" class="fw-bold text-success">Take Away</option>
+                                            <option value="">Pilih Jenis</option>
+                                            <option value="dine_in" data-name="dine in">Dine In</option>
+                                            <option value="take_away" data-name="takeaway">Take Away</option>
+                                            <option value="reservasi" data-name="{{ strtolower('Reservasi') }}">Reservasi
+                                            </option>
                                         </select>
                                     </div>
                                 </div>
@@ -256,46 +175,139 @@
     <div class="modal fade" id="checkoutModal" tabindex="-1" aria-labelledby="checkoutModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content border-0 shadow-lg">
-                <div class="modal-header bg-primary text-white">
-                    <h5 class="modal-title fw-bold" id="checkoutModalLabel">
-                        <i class="bi bi-wallet2 me-2"></i>Pembayaran
-                    </h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
-                        aria-label="Close"></button>
-                </div>
-                <div class="modal-body p-4">
-                    <div class="text-center mb-4">
-                        <p class="text-muted mb-1 small text-uppercase fw-bold">Total Tagihan</p>
-                        <h2 class="fw-bold text-primary display-6" id="checkout-total">Rp 0</h2>
-                    </div>
+                <form action="{{ route('pesanan.store') }}" method="POST">
+                    @csrf
+                    <input type="hidden" name="cart_items" id="cart_items_input">
+                    <input type="hidden" name="jenis_id" id="jenis_id_modal">
 
-                    <div class="mb-3">
-                        <label for="payment_amount" class="form-label fw-bold small text-muted">Uang Tunai</label>
-                        <div class="input-group input-group-lg shadow-sm">
-                            <span class="input-group-text bg-white text-muted border-end-0"><i
-                                    class="bi bi-cash-stack"></i></span>
-                            <input type="text" inputmode="numeric" class="form-control border-start-0 ps-2"
-                                id="payment_amount" placeholder="0">
-                        </div>
+                    <div class="modal-header bg-primary text-white">
+                        <h5 class="modal-title fw-bold" id="checkoutModalLabel">
+                            <i class="bi bi-wallet2 me-2"></i>Konfirmasi Pesanan
+                        </h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                            aria-label="Close"></button>
                     </div>
-                    <div class="mb-3">
-                        <label for="change_amount" class="form-label fw-bold small text-muted">Kembalian</label>
-                        <div class="input-group input-group-lg shadow-sm">
-                            <span class="input-group-text bg-light text-muted border-end-0"><i
-                                    class="bi bi-arrow-return-left"></i></span>
-                            <input type="text" class="form-control bg-light border-start-0 ps-2 fw-bold text-success"
-                                id="change_amount" placeholder="Rp 0" readonly>
+                    <div class="modal-body p-4">
+                        <div class="text-center mb-4">
+                            <p class="text-muted mb-1 small text-uppercase fw-bold">Total Tagihan</p>
+                            <h2 class="fw-bold text-primary display-6" id="checkout-total">Rp 0</h2>
+                            {{-- input hidden untuk menyimpan total tagihan --}}
+                            <input type="hidden" name="total_tagihan" id="total_tagihan">
                         </div>
+
+                        <div class="row g-2 mb-3">
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold small text-muted">Nama Pemesan</label>
+                                <input type="text" name="nama_pemesan" class="form-control" required>
+                            </div>
+                            <div class="col-md-6" id="no-telp-container">
+                                <label class="form-label fw-bold small text-muted">No. Telepon</label>
+                                <input type="text" name="no_telp" class="form-control">
+                            </div>
+                        </div>
+
+                        <div class="row g-2 mb-3">
+                            <div class="col-md-6" id="jumlah-orang-container">
+                                <label class="form-label fw-bold small text-muted">Jumlah Orang</label>
+                                <input type="number" name="jumlah_orang" class="form-control" value="1"
+                                    min="1">
+                            </div>
+                        </div>
+
+                        <div class="mb-3" id="waktu-pesanan-container">
+                            <label class="form-label fw-bold small text-muted">Waktu Pesanan</label>
+                            <select name="waktu_pesanan" id="waktu_pesanan" class="form-select">
+                                <option value="sekarang">Sekarang (Langsung)</option>
+                                <option value="reservasi">Reservasi (Nanti)</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-3 d-none" id="tanggal_reservasi_container">
+                            <label class="form-label fw-bold small text-muted">Tanggal & Jam</label>
+                            <input type="datetime-local" name="tanggal_pemesanan" id="tanggal_pemesanan"
+                                class="form-control">
+                        </div>
+
+                        {{-- Optional: Payment Simulation (Client Side Only for now as Controller doesn't take payment) --}}
+                        <div class="mb-3">
+                            <label for="payment_amount" class="form-label fw-bold small text-muted">Uang Tunai
+                                (Opsional)</label>
+                            <div class="input-group input-group-lg shadow-sm">
+                                <span class="input-group-text bg-white text-muted border-end-0"><i
+                                        class="bi bi-cash-stack"></i></span>
+                                <input type="text" name="payment_amount" inputmode="numeric"
+                                    class="form-control border-start-0 ps-2" id="payment_amount" placeholder="0">
+                            </div>
+                            <div class="form-text text-end text-success fw-bold" id="change_text"></div>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer border-top-0 px-4 pb-4">
+                        <button type="button" class="btn btn-light text-muted fw-bold px-4" data-bs-dismiss="modal">
+                            <i class="bi bi-x-lg me-1"></i> Batal
+                        </button>
+                        <button type="submit" class="btn btn-primary fw-bold px-4 flex-grow-1 shadow-sm">
+                            <i class="bi bi-check-circle-fill me-2"></i> Simpan Pesanan
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    {{-- Modal Pilih Meja dengan DataTables --}}
+    <div class="modal fade" id="modalPilihMeja" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Pilih Meja</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-hover w-100" id="tableMeja">
+                            <thead class="table-light">
+                                <tr>
+                                    <th class="text-center" width="50">Pilih</th>
+                                    <th>Nama Meja</th>
+                                    <th>Area</th>
+                                    <th width="100">Jml Orang</th>
+                                    <th>Kapasitas</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($mejas as $meja)
+                                    <tr>
+                                        <td class="text-center">
+                                            <input type="checkbox" class="form-check-input meja-checkbox"
+                                                value="{{ $meja->id }}" data-name="Meja {{ $meja->name }}"
+                                                {{ $meja->kapasitas == 'Penuh' ? 'disabled' : '' }}>
+                                        </td>
+                                        <td>Meja {{ $meja->name }}</td>
+                                        <td>{{ $meja->area->name ?? 'Area Umum' }}</td>
+                                        <td>
+                                            <input type="number" class="form-control form-control-sm meja-jumlah"
+                                                min="1" value="1" style="width: 80px;"
+                                                {{ $meja->kapasitas == 'Penuh' ? 'disabled' : '' }}>
+                                        </td>
+                                        <td>{{ $meja->jumlah_kursi }} Kursi</td>
+                                        <td>
+                                            @if ($meja->kapasitas == 'Penuh')
+                                                <span class="badge bg-danger">Penuh</span>
+                                            @else
+                                                <span class="badge bg-success">{{ $meja->kapasitas }}</span>
+                                            @endif
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
                     </div>
                 </div>
-                <div class="modal-footer border-top-0 px-4 pb-4">
-                    <button type="button" class="btn btn-light text-muted fw-bold px-4" data-bs-dismiss="modal">
-                        <i class="bi bi-x-lg me-1"></i> Batal
-                    </button>
-                    <button type="button" class="btn btn-primary fw-bold px-4 flex-grow-1 shadow-sm"
-                        data-bs-dismiss="modal">
-                        <i class="bi bi-check-circle-fill me-2"></i> Bayar & Print Struk
-                    </button>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal" id="btnSimpanMeja">Simpan
+                        Pilihan</button>
                 </div>
             </div>
         </div>
@@ -305,8 +317,24 @@
 @section('script')
     <script>
         let cart = [];
+        let tableMeja;
 
-        document.addEventListener('DOMContentLoaded', () => {
+        $(document).ready(function() {
+
+            // Init DataTable Meja
+            tableMeja = $('#tableMeja').DataTable({
+                paging: false, // Disable paging agar user bisa scroll dan lihat semua sekaligus
+                scrollY: '300px',
+                scrollCollapse: true,
+                searching: true,
+                info: false
+            });
+
+            // Handle tombol Simpan di Modal Meja
+            $('#btnSimpanMeja').on('click', function() {
+                updateSelectedMejaDisplay();
+            });
+
             const buttons = document.querySelectorAll('.add-to-cart');
             buttons.forEach(btn => {
                 btn.addEventListener('click', function(e) {
@@ -321,15 +349,64 @@
             // Logic Hitung Kembalian di Modal Checkout
             const checkoutBtn = document.getElementById('btn-checkout');
             const paymentInput = document.getElementById('payment_amount');
-            const changeInput = document.getElementById('change_amount');
+            const changeText = document.getElementById('change_text');
             const checkoutTotalEl = document.getElementById('checkout-total');
+            // total_tagihan
+            const totalTagihanInput = document.getElementById('total_tagihan');
+            const cartItemsInput = document.getElementById('cart_items_input');
+            const jumlahOrangInput = document.querySelector('input[name="jumlah_orang"]');
+            const modalForm = document.querySelector('#checkoutModal form');
 
             checkoutBtn.addEventListener('click', function() {
                 const total = this.dataset.total;
                 checkoutTotalEl.innerText = formatRupiah(total);
                 checkoutTotalEl.dataset.val = total;
-                paymentInput.value = ''; // Reset input pembayaran
-                changeInput.value = ''; // Reset input kembalian
+                totalTagihanInput.value = total;
+
+                // Sync Data to Form
+                cartItemsInput.value = JSON.stringify(cart);
+
+                // Handle multiple mejas
+                // Remove existing meja_id inputs to avoid duplication
+                modalForm.querySelectorAll('input[name="meja_id[]"]').forEach(el => el.remove());
+                modalForm.querySelectorAll('input[name^="meja_input"]').forEach(el => el.remove());
+
+                // Ambil dari checkbox yang tercentang di DataTable
+                // Gunakan API DataTable untuk mengambil node (aman jika nanti paging diaktifkan)
+                let selectedMejas = [];
+                let totalOrangMeja = 0;
+
+                tableMeja.$('input.meja-checkbox:checked').each(function() {
+                    let row = $(this).closest('tr');
+                    let jumlahInput = row.find('.meja-jumlah').val();
+                    let jumlah = parseInt(jumlahInput) || 1;
+
+                    selectedMejas.push({
+                        id: $(this).val(),
+                        jumlah: jumlah
+                    });
+                    totalOrangMeja += jumlah;
+                });
+
+                // Jika ada meja yang dipilih, update input jumlah orang di modal checkout
+                if (selectedMejas.length > 0) {
+                    jumlahOrangInput.value = totalOrangMeja;
+                }
+
+                // Buat input hidden untuk dikirim ke controller
+                selectedMejas.forEach((item, index) => {
+                    // Kirim array struct: meja_input[0][id] dan meja_input[0][jumlah]
+                    $('<input>').attr({
+                        type: 'hidden',
+                        name: `meja_input[${index}][id]`,
+                        value: item.id
+                    }).appendTo(modalForm);
+                    $('<input>').attr({
+                        type: 'hidden',
+                        name: `meja_input[${index}][jumlah]`,
+                        value: item.jumlah
+                    }).appendTo(modalForm);
+                });
             });
 
             paymentInput.addEventListener('input', function() {
@@ -339,7 +416,7 @@
                 // Jika input kosong, reset kembalian dan nilai input
                 if (rawValue === '') {
                     this.value = '';
-                    changeInput.value = '';
+                    changeText.innerText = '';
                     return;
                 }
 
@@ -349,13 +426,125 @@
 
                 // Hitung dan tampilkan kembalian
                 const change = pay - total;
-                changeInput.value = (change >= 0) ? formatRupiah(change) : 'Kurang ' + formatRupiah(
-                    Math.abs(change));
+                changeText.innerText = (change >= 0) ? 'Kembalian: ' + formatRupiah(change) : 'Kurang: ' +
+                    formatRupiah(Math.abs(change));
 
                 // Format ulang nilai input dengan pemisah ribuan (titik)
                 this.value = pay.toLocaleString('id-ID');
             });
+
+            // Logic Waktu Pesanan
+            const waktuSelect = document.getElementById('waktu_pesanan');
+            const tglContainer = document.getElementById('tanggal_reservasi_container');
+            const tglInput = document.getElementById('tanggal_pemesanan');
+
+            waktuSelect.addEventListener('change', function() {
+                if (this.value === 'reservasi') {
+                    tglContainer.classList.remove('d-none');
+                    tglInput.required = true;
+                } else {
+                    tglContainer.classList.add('d-none');
+                    tglInput.required = false;
+                }
+            });
+
+            // Logic Filter Kategori (DOM)
+            const categoryButtons = document.querySelectorAll('.category-filter');
+            const productItems = document.querySelectorAll('.product-item');
+
+            categoryButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    // Reset active class
+                    categoryButtons.forEach(btn => {
+                        btn.classList.remove('btn-success');
+                        btn.classList.add('btn-outline-secondary');
+                    });
+                    // Set active class
+                    this.classList.remove('btn-outline-secondary');
+                    this.classList.add('btn-success');
+
+                    const category = this.getAttribute('data-category');
+                    productItems.forEach(item => {
+                        const itemCategory = item.getAttribute('data-category');
+                        if (category === 'all' || itemCategory === category) {
+                            item.classList.remove('d-none');
+                        } else {
+                            item.classList.add('d-none');
+                        }
+                    });
+                });
+            });
+
+            // Logic Jenis Pesanan (Dine In, Take Away, Reservasi)
+            const jenisDisplay = document.getElementById('jenis_id_display');
+            const jenisModal = document.getElementById('jenis_id_modal');
+            const mejaContainer = document.getElementById('meja-container');
+            const noTelpContainer = document.getElementById('no-telp-container');
+            const jumlahOrangContainer = document.getElementById('jumlah-orang-container');
+            const waktuPesananContainer = document.getElementById('waktu-pesanan-container');
+
+            jenisDisplay.addEventListener('change', function() {
+                const selectedOption = this.options[this.selectedIndex];
+                const typeName = (selectedOption.getAttribute('data-name') || '').toLowerCase();
+
+                // Sync selection to modal
+                jenisModal.value = this.value;
+
+                // Reset Visibility
+                mejaContainer.classList.remove('d-none');
+                noTelpContainer.classList.remove('d-none');
+                jumlahOrangContainer.classList.remove('d-none');
+                waktuPesananContainer.classList.remove('d-none');
+
+                // Logic based on type name
+                if (typeName.includes('take away') || typeName.includes('takeaway')) {
+                    // Take Away: Hide Meja, Jumlah Orang, No Telp, Waktu
+                    mejaContainer.classList.add('d-none');
+                    jumlahOrangContainer.classList.add('d-none');
+                    noTelpContainer.classList.add('d-none');
+
+                    // Deselect all tables
+                    tableMeja.$('input.meja-checkbox').prop('checked', false);
+                    updateSelectedMejaDisplay();
+
+                    // Set waktu to sekarang and hide
+                    waktuSelect.value = 'sekarang';
+                    waktuSelect.dispatchEvent(new Event('change'));
+                    waktuPesananContainer.classList.add('d-none');
+
+                } else if (typeName.includes('reservasi')) {
+                    // Reservasi: Show All (Meja, Telp, Jumlah, Waktu)
+                    // Force waktu to reservasi
+                    waktuSelect.value = 'reservasi';
+                    waktuSelect.dispatchEvent(new Event('change'));
+
+                } else {
+                    // Dine In (Default): Show Meja, Jumlah. Hide Telp.
+                    noTelpContainer.classList.add('d-none');
+
+                    // Set waktu to sekarang and hide
+                    waktuSelect.value = 'sekarang';
+                    waktuSelect.dispatchEvent(new Event('change'));
+                    waktuPesananContainer.classList.add('d-none');
+                }
+            });
         });
+
+        function updateSelectedMejaDisplay() {
+            let selectedNames = [];
+            tableMeja.$('input.meja-checkbox:checked').each(function() {
+                selectedNames.push($(this).data('name'));
+            });
+
+            const displayEl = document.getElementById('selected-meja-text');
+            if (selectedNames.length > 0) {
+                displayEl.innerText = selectedNames.join(', ');
+                displayEl.classList.add('text-primary', 'fw-bold');
+            } else {
+                displayEl.innerText = 'Pilih Meja';
+                displayEl.classList.remove('text-primary', 'fw-bold');
+            }
+        }
 
         function addToCart(id, name, price) {
             const existingItem = cart.find(item => item.id === id);

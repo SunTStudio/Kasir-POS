@@ -72,15 +72,11 @@
                     <div class="d-flex justify-content-between align-items-start mb-2">
                         <div>
                             <p class="text-muted small fw-bold text-uppercase mb-1">Total Omset (Hari Ini)</p>
-                            <h5 class="fw-bold text-dark mb-0">Rp 4.500.000</h5>
+                            <h5 class="fw-bold text-dark mb-0">Rp {{ number_format($pendapatan, 0, ',', '.') }}</h5>
                         </div>
                         <div class="icon-box bg-success-subtle text-success">
                             <i class="bi bi-currency-dollar"></i>
                         </div>
-                    </div>
-                    <div class="d-flex align-items-center small">
-                        <span class="text-success fw-bold me-2"><i class="bi bi-arrow-up-short"></i> 12.5%</span>
-                        <span class="text-muted">vs kemarin</span>
                     </div>
                 </div>
             </div>
@@ -92,15 +88,11 @@
                     <div class="d-flex justify-content-between align-items-start mb-2">
                         <div>
                             <p class="text-muted small fw-bold text-uppercase mb-1">Total Pesanan</p>
-                            <h5 class="fw-bold text-dark mb-0">85 Order</h5>
+                            <h5 class="fw-bold text-dark mb-0">{{ $totalPesanan }} Order</h5>
                         </div>
                         <div class="icon-box bg-primary-subtle text-primary">
                             <i class="bi bi-receipt"></i>
                         </div>
-                    </div>
-                    <div class="d-flex align-items-center small">
-                        <span class="text-success fw-bold me-2"><i class="bi bi-arrow-up-short"></i> 5.2%</span>
-                        <span class="text-muted">vs kemarin</span>
                     </div>
                 </div>
             </div>
@@ -111,16 +103,15 @@
                 <div class="card-body p-3">
                     <div class="d-flex justify-content-between align-items-start mb-2">
                         <div>
+                            @php
+                                $rataRata = $totalPesanan > 0 ? $pendapatan / $totalPesanan : 0;
+                            @endphp
                             <p class="text-muted small fw-bold text-uppercase mb-1">Rata-rata Transaksi</p>
-                            <h5 class="fw-bold text-dark mb-0">Rp 52.900</h5>
+                            <h5 class="fw-bold text-dark mb-0">Rp {{ number_format($rataRata, 0, ',', '.') }}</h5>
                         </div>
                         <div class="icon-box bg-info-subtle text-info">
                             <i class="bi bi-wallet2"></i>
                         </div>
-                    </div>
-                    <div class="d-flex align-items-center small">
-                        <span class="text-danger fw-bold me-2"><i class="bi bi-arrow-down-short"></i> 1.5%</span>
-                        <span class="text-muted">vs kemarin</span>
                     </div>
                 </div>
             </div>
@@ -131,18 +122,22 @@
                 <div class="card-body p-3">
                     <div class="d-flex justify-content-between align-items-start mb-2">
                         <div>
-                            <p class="text-muted small fw-bold text-uppercase mb-1">Meja Terisi</p>
-                            <h5 class="fw-bold text-dark mb-0">8 / 12</h5>
+                            <p class="text-muted small fw-bold text-uppercase mb-1">Ketersediaan Meja</p>
+                            <h5 class="fw-bold text-dark mb-0">{{ $mejaTerpakai }} / {{ $totalMeja }} <span
+                                    class="fw-normal small">Terisi</span></h5>
                         </div>
                         <div class="icon-box bg-warning-subtle text-warning">
                             <i class="bi bi-grid-fill"></i>
                         </div>
                     </div>
-                    <div class="progress progress-thin mt-2">
-                        <div class="progress-bar bg-warning" role="progressbar" style="width: 66%" aria-valuenow="66"
-                            aria-valuemin="0" aria-valuemax="100"></div>
-                    </div>
-                    <div class="mt-1 small text-muted">66% Okupansi</div>
+                    @php
+                        $okupansi = $totalMeja > 0 ? ($mejaTerpakai / $totalMeja) * 100 : 0;
+                    @endphp
+                    {{-- <div class="progress progress-thin mt-2">
+                        <div class="progress-bar bg-warning" role="progressbar" style="width: {{ $okupansi }}%"
+                            aria-valuenow="{{ $okupansi }}" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div> --}}
+                    {{-- <div class="mt-1 small text-muted">{{ round($okupansi) }}% Okupansi</div> --}}
                 </div>
             </div>
         </div>
@@ -186,38 +181,62 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @for ($i = 1; $i <= 5; $i++)
+                            @forelse ($recentOrders as $order)
                                 <tr>
-                                    <td class="ps-4 fw-bold text-primary">#ORD-00{{ $i }}</td>
+                                    <td class="ps-4 fw-bold text-primary">{{ $order->no_pesanan }}</td>
                                     <td>
                                         <div class="d-flex align-items-center">
                                             <div class="bg-light rounded-circle d-flex align-items-center justify-content-center me-2 text-secondary"
                                                 style="width: 30px; height: 30px;"><i class="bi bi-person-fill"></i>
                                             </div>
                                             <div>
-                                                <span class="d-block fw-medium">Customer {{ $i }}</span>
-                                                <small class="text-muted">Meja {{ rand(1, 10) }}</small>
+                                                <span class="d-block fw-medium">{{ $order->nama_pemesan }}</span>
+                                                <small class="text-muted">Meja
+                                                    {{ $order->meja->name ?? 'N/A' }}</small>
                                             </div>
                                         </div>
                                     </td>
-                                    <td><small class="text-muted">Nasi Goreng, Es Teh...</small></td>
-                                    <td class="fw-bold">Rp {{ number_format(rand(50000, 150000), 0, ',', '.') }}</td>
+                                    <td><small class="text-muted">
+                                            @if ($order->penjualans->isNotEmpty())
+                                                {{ $order->penjualans->first()->produk->name ?? 'Item' }}{{ $order->penjualans->count() > 1 ? ', ...' : '' }}
+                                            @else
+                                                -
+                                            @endif
+                                        </small></td>
+                                    <td class="fw-bold">Rp
+                                        {{ number_format($order->payment->jumlah ?? 0, 0, ',', '.') }}</td>
                                     <td>
                                         @php
-                                            $statuses = ['Baru', 'Dimasak', 'Selesai'];
-                                            $status = $statuses[array_rand($statuses)];
-                                            $badgeClass =
-                                                $status == 'Baru'
-                                                    ? 'bg-primary-subtle text-primary'
-                                                    : ($status == 'Dimasak'
-                                                        ? 'bg-warning-subtle text-warning'
-                                                        : 'bg-success-subtle text-success');
+                                            $statusLabel = match ($order->status) {
+                                                'pending' => 'Baru',
+                                                'cooking' => 'Dimasak',
+                                                'served' => 'Siap',
+                                                'paid' => 'Selesai',
+                                                'cancelled' => 'Batal',
+                                                default => ucfirst($order->status),
+                                            };
+                                            $badgeClass = match ($order->status) {
+                                                'pending' => 'bg-primary-subtle text-primary',
+                                                'cooking' => 'bg-warning-subtle text-warning',
+                                                'served' => 'bg-info-subtle text-info',
+                                                'paid' => 'bg-success-subtle text-success',
+                                                'cancelled' => 'bg-danger-subtle text-danger',
+                                                default => 'bg-secondary-subtle text-secondary',
+                                            };
                                         @endphp
-                                        <span class="badge {{ $badgeClass }} rounded-pill px-3">{{ $status }}</span>
+                                        <span
+                                            class="badge {{ $badgeClass }} rounded-pill px-3">{{ $statusLabel }}</span>
                                     </td>
-                                    <td class="text-end pe-4 text-muted small">{{ rand(1, 59) }} menit lalu</td>
+                                    <td class="text-end pe-4 text-muted small">
+                                        {{ $order->created_at->diffForHumans() }}</td>
                                 </tr>
-                            @endfor
+                            @empty
+                                <tr>
+                                    <td colspan="6" class="text-center text-muted py-4">
+                                        Belum ada pesanan hari ini.
+                                    </td>
+                                </tr>
+                            @endforelse
                         </tbody>
                     </table>
                 </div>
@@ -233,27 +252,28 @@
                 </div>
                 <div class="card-body p-0">
                     <div class="list-group list-group-flush">
-                        @php
-                            $topItems = [
-                                ['name' => 'Nasi Goreng Spesial', 'sold' => 120, 'percent' => 85],
-                                ['name' => 'Es Teh Manis', 'sold' => 98, 'percent' => 70],
-                                ['name' => 'Ayam Bakar Madu', 'sold' => 75, 'percent' => 55],
-                                ['name' => 'Mie Goreng Jawa', 'sold' => 60, 'percent' => 45],
-                                ['name' => 'Kopi Susu Gula Aren', 'sold' => 45, 'percent' => 30],
-                            ];
-                        @endphp
-                        @foreach ($topItems as $item)
+                        @forelse ($topMenus as $item)
                             <div class="list-group-item border-0 px-4 py-3">
                                 <div class="d-flex justify-content-between align-items-center mb-1">
-                                    <span class="fw-medium small">{{ $item['name'] }}</span>
-                                    <span class="small fw-bold text-secondary">{{ $item['sold'] }} Terjual</span>
+                                    <span class="fw-medium small">{{ $item->produk->name ?? 'Produk Dihapus' }}</span>
+                                    <span class="small fw-bold text-secondary">{{ $item->total_sold }} Terjual</span>
                                 </div>
+                                @php
+                                    $maxSold = $topMenus->first()->total_sold ?? 0;
+                                    $percentage = $maxSold > 0 ? ($item->total_sold / $maxSold) * 100 : 0;
+                                @endphp
                                 <div class="progress progress-thin bg-light">
                                     <div class="progress-bar bg-primary" role="progressbar"
-                                        style="width: {{ $item['percent'] }}%"></div>
+                                        style="width: {{ $percentage }}%"></div>
                                 </div>
                             </div>
-                        @endforeach
+                        @empty
+                            <div class="list-group-item border-0 px-4 py-5 text-center">
+                                <span class="text-muted small">
+                                    Belum ada data menu terlaris hari ini.
+                                </span>
+                            </div>
+                        @endforelse
                     </div>
                 </div>
                 <div class="card-footer bg-white border-0 text-center py-3">
@@ -294,6 +314,11 @@
     {{-- Chart.js CDN --}}
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
+        // Data from controller
+        const orderTypesData = @json($orderTypes->values());
+        const orderTypesLabels = @json($orderTypes->keys());
+        const pieChartColors = ['#4e73df', '#1cc88a', '#36b9cc', '#f6c23e', '#e74a3b'];
+
         // Area Chart (Pendapatan)
         const ctx = document.getElementById('myAreaChart').getContext('2d');
         new Chart(ctx, {
@@ -354,11 +379,12 @@
         new Chart(ctxPie, {
             type: 'doughnut',
             data: {
-                labels: ["Dine In", "Take Away", "Delivery"],
+                labels: orderTypesLabels,
                 datasets: [{
-                    data: [65, 25, 10],
-                    backgroundColor: ['#4e73df', '#1cc88a', '#36b9cc'],
-                    hoverBackgroundColor: ['#2e59d9', '#17a673', '#2c9faf'],
+                    data: orderTypesData,
+                    backgroundColor: pieChartColors,
+                    hoverBackgroundColor: pieChartColors.map(color => Chart.helpers.color(color).saturate(
+                        0.5).darken(0.1).rgbString()),
                     hoverBorderColor: "rgba(234, 236, 244, 1)",
                 }],
             },

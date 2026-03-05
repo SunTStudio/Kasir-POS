@@ -112,7 +112,7 @@
                         class="bi bi-cart4 me-2"></i>Buat Pesanan (POS)</a>
                 <a class="list-group-item list-group-item-action bg-white" href="{{ route('manajement.meja') }}"><i
                         class="bi bi-grid-3x3-gap me-2"></i>Manajemen Meja</a>
-                        {{-- list pesanan --}}
+                        {{-- list pesanan --}} 
                 <a class="list-group-item list-group-item-action bg-white" href="{{ route('pesanan') }}"><i
                         class="bi bi-list-ul me-2"></i>List Pesanan</a>
                 <a class="list-group-item list-group-item-action bg-white" href="{{ route('produk') }}"><i
@@ -126,8 +126,8 @@
                         {{-- jenis Order --}}
                 <a class="list-group-item list-group-item-action bg-white" href="{{ route('jenis.order') }}"><i
                         class="bi bi-card-list me-2"></i>Jenis Order</a>
-                <a class="list-group-item list-group-item-action bg-white" href="#!"><i
-                        class="bi bi-gear me-2"></i>Pengaturan</a>
+                <a class="list-group-item list-group-item-action bg-white" href="{{ route('profile') }}"><i
+                        class="bi bi-gear me-2"></i>Pengaturan</a> 
             </div>
         </div>
 

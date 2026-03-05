@@ -141,182 +141,105 @@
                                 aria-describedby="basic-addon1">
                         </div>
                         {{-- tambah tombol tambah reservasi --}}
-                        <button class="btn btn-secondary w-100 mb-3 btn-sm"><i class="bi bi-plus-lg me-1"></i>Tambah
-                            Reservasi</button>
+                        {{-- <button class="btn btn-secondary w-100 mb-3 btn-sm"><i class="bi bi-plus-lg me-1"></i>Tambah
+                            Reservasi / Permintaan</button> --}}
 
-                        {{-- Card Reservasi Item --}}
-                        <div class="card border-0 shadow-sm mb-3 rounded-3 overflow-hidden">
-                            <div class="d-flex align-items-stretch">
-                                {{-- Kolom Waktu --}}
-                                <div class="bg-secondary text-white p-2 d-flex flex-column justify-content-center align-items-center text-center"
-                                    style="min-width: 75px;">
-                                    <i class="bi bi-clock mb-1"></i>
-                                    <span class="fw-bold lh-1">12:00</span>
-                                    <span class="small text-white-50" style="font-size: 0.7rem;">PM</span>
-                                </div>
-                                {{-- Kolom Detail --}}
-                                <div class="p-2 flex-grow-1 bg-white">
-                                    <div class="d-flex justify-content-between align-items-start mb-1">
-                                        <h6 class="fw-bold mb-0 text-dark text-truncate"
-                                            style="max-width: 110px; font-size: 0.95rem;">John Doe</h6>
-                                        <span
-                                            class="badge bg-success-subtle text-success border border-success-subtle rounded-pill"
-                                            style="font-size: 0.65rem;">Dibayar</span>
-                                    </div>
-                                    <div class="d-flex align-items-center text-muted mb-2">
-                                        <i class="bi bi-whatsapp text-success me-1" style="font-size: 0.8rem;"></i>
-                                        <span class="small" style="font-size: 0.75rem;">0812-3456-7890</span>
-                                    </div>
-                                    <div class="d-flex gap-2">
-                                        <div
-                                            class="badge bg-light text-secondary border fw-normal d-flex align-items-center px-2">
-                                            <i class="bi bi-people-fill me-1 text-primary"></i> 4 Org
-                                        </div>
-                                        <div
-                                            class="badge bg-light text-secondary border fw-normal d-flex align-items-center px-2">
-                                            <i class="bi bi-grid-fill me-1 text-primary"></i> Meja 1
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card border-0 shadow-sm mb-3 rounded-3 overflow-hidden">
-                            <div class="d-flex align-items-stretch">
-                                {{-- Kolom Waktu --}}
-                                <div class="bg-success text-white p-2 d-flex flex-column justify-content-center align-items-center text-center"
-                                    style="min-width: 75px;">
-                                    <i class="bi bi-check-lg mb-1"></i>
-                                    <span class="fw-bold lh-1" style="font-size: 0.8rem;">Tersedia</span>
-                                </div>
-                                {{-- Kolom Detail --}}
-                                <div class="p-2 flex-grow-1 bg-white">
-                                    <div class="d-flex justify-content-between align-items-start mb-1">
-                                        <h6 class="fw-bold mb-0 text-dark text-truncate"
-                                            style="max-width: 110px; font-size: 0.95rem;">Meja #2</h6>
-                                        <span
-                                            class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill"
-                                            style="font-size: 0.65rem;">Kosong</span>
-                                    </div>
-                                    <div class="d-flex align-items-center text-muted mb-2">
-                                        <span class="small" style="font-size: 0.75rem;">Siap digunakan</span>
-                                    </div>
-                                    <div class="d-flex gap-2">
-                                        <div
-                                            class="badge bg-light text-secondary border fw-normal d-flex align-items-center px-2">
-                                            <i class="bi bi-people-fill me-1 text-primary"></i> 2 Org
-                                        </div>
-                                        <div
-                                            class="badge bg-light text-secondary border fw-normal d-flex align-items-center px-2">
-                                            <i class="bi bi-grid-fill me-1 text-primary"></i> Meja 2
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card border-0 shadow-sm mb-3 rounded-3 overflow-hidden">
-                            <div class="d-flex align-items-stretch">
-                                {{-- Kolom Waktu --}}
-                                <div class="bg-secondary text-white p-2 d-flex flex-column justify-content-center align-items-center text-center"
-                                    style="min-width: 75px;">
-                                    <i class="bi bi-clock mb-1"></i>
-                                    <span class="fw-bold lh-1">13:30</span>
-                                    <span class="small text-white-50" style="font-size: 0.7rem;">PM</span>
-                                </div>
-                                {{-- Kolom Detail --}}
-                                <div class="p-2 flex-grow-1 bg-white">
-                                    <div class="d-flex justify-content-between align-items-start mb-1">
-                                        <h6 class="fw-bold mb-0 text-dark text-truncate"
-                                            style="max-width: 110px; font-size: 0.95rem;">John Doe</h6>
-                                        <span
-                                            class="badge bg-success-subtle text-success border border-success-subtle rounded-pill"
-                                            style="font-size: 0.65rem;">Dibayar</span>
-                                    </div>
-                                    <div class="d-flex align-items-center text-muted mb-2">
-                                        <i class="bi bi-whatsapp text-success me-1" style="font-size: 0.8rem;"></i>
-                                        <span class="small" style="font-size: 0.75rem;">0812-3456-7890</span>
-                                    </div>
-                                    <div class="d-flex gap-2">
-                                        <div
-                                            class="badge bg-light text-secondary border fw-normal d-flex align-items-center px-2">
-                                            <i class="bi bi-people-fill me-1 text-primary"></i> 4 Org
-                                        </div>
-                                        <div
-                                            class="badge bg-light text-secondary border fw-normal d-flex align-items-center px-2">
-                                            <i class="bi bi-grid-fill me-1 text-primary"></i> Meja 1
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card border-0 shadow-sm mb-3 rounded-3 overflow-hidden">
-                            <div class="d-flex align-items-stretch">
-                                {{-- Kolom Waktu --}}
-                                <div class="bg-success text-white p-2 d-flex flex-column justify-content-center align-items-center text-center"
-                                    style="min-width: 75px;">
-                                    <i class="bi bi-check-lg mb-1"></i>
-                                    <span class="fw-bold lh-1" style="font-size: 0.8rem;">Tersedia</span>
-                                </div>
-                                {{-- Kolom Detail --}}
-                                <div class="p-2 flex-grow-1 bg-white">
-                                    <div class="d-flex justify-content-between align-items-start mb-1">
-                                        <h6 class="fw-bold mb-0 text-dark text-truncate"
-                                            style="max-width: 110px; font-size: 0.95rem;">Meja #4</h6>
-                                        <span
-                                            class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill"
-                                            style="font-size: 0.65rem;">Kosong</span>
-                                    </div>
-                                    <div class="d-flex align-items-center text-muted mb-2">
-                                        <span class="small" style="font-size: 0.75rem;">Siap digunakan</span>
-                                    </div>
-                                    <div class="d-flex gap-2">
-                                        <div
-                                            class="badge bg-light text-secondary border fw-normal d-flex align-items-center px-2">
-                                            <i class="bi bi-people-fill me-1 text-primary"></i> 6 Org
-                                        </div>
-                                        <div
-                                            class="badge bg-light text-secondary border fw-normal d-flex align-items-center px-2">
-                                            <i class="bi bi-grid-fill me-1 text-primary"></i> Meja 4
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card border-0 shadow-sm mb-3 rounded-3 overflow-hidden">
-                            <div class="d-flex align-items-stretch">
-                                {{-- Kolom Waktu --}}
-                                <div class="bg-secondary text-white p-2 d-flex flex-column justify-content-center align-items-center text-center"
-                                    style="min-width: 75px;">
-                                    <i class="bi bi-clock mb-1"></i>
-                                    <span class="fw-bold lh-1">12:00</span>
-                                    <span class="small text-white-50" style="font-size: 0.7rem;">PM</span>
-                                </div>
-                                {{-- Kolom Detail --}}
-                                <div class="p-2 flex-grow-1 bg-white">
-                                    <div class="d-flex justify-content-between align-items-start mb-1">
-                                        <h6 class="fw-bold mb-0 text-dark text-truncate"
-                                            style="max-width: 110px; font-size: 0.95rem;">John Doe</h6>
-                                        <span
-                                            class="badge bg-success-subtle text-success border border-success-subtle rounded-pill"
-                                            style="font-size: 0.65rem;">Dibayar</span>
-                                    </div>
-                                    <div class="d-flex align-items-center text-muted mb-2">
-                                        <i class="bi bi-whatsapp text-success me-1" style="font-size: 0.8rem;"></i>
-                                        <span class="small" style="font-size: 0.75rem;">0812-3456-7890</span>
-                                    </div>
-                                    <div class="d-flex gap-2">
-                                        <div
-                                            class="badge bg-light text-secondary border fw-normal d-flex align-items-center px-2">
-                                            <i class="bi bi-people-fill me-1 text-primary"></i> 4 Org
-                                        </div>
-                                        <div
-                                            class="badge bg-light text-secondary border fw-normal d-flex align-items-center px-2">
-                                            <i class="bi bi-grid-fill me-1 text-primary"></i> Meja 1
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        <div class="reservasi-items" style="max-height: 500px; overflow-y: auto;">
+                            @php
+                                $allReservations = collect();
+                                foreach ($managementMejas as $meja) {
+                                    foreach ($meja->reservasi_list as $reservasi) {
+                                        $reservasi->meja_info = $meja;
+                                        $allReservations->push($reservasi);
+                                    }
+                                }
+                                $allReservations = $allReservations->sortBy('created_at');
+                            @endphp
 
+                            @forelse($allReservations as $reservasi)
+                                @if ($reservasi->penjualan)
+                                    <div class="card border-0 shadow-sm mb-3 rounded-3 overflow-hidden">
+                                        <div class="d-flex align-items-stretch">
+                                            {{-- Kolom Waktu --}}
+                                            <div class="bg-secondary text-white p-2 d-flex flex-column justify-content-center align-items-center text-center"
+                                                style="min-width: 75px;">
+                                                <i class="bi bi-clock mb-1"></i>
+                                                <span
+                                                    class="fw-bold lh-1">{{ \Carbon\Carbon::parse($reservasi->created_at)->format('H:i') }}</span>
+                                                <span class="small text-white-50"
+                                                    style="font-size: 0.7rem;">{{ \Carbon\Carbon::parse($reservasi->created_at)->format('A') }}</span>
+                                            </div>
+                                            {{-- Kolom Detail --}}
+                                            <div class="p-2 flex-grow-1 bg-white">
+                                                <div class="d-flex justify-content-between align-items-start mb-1">
+                                                    <h6 class="fw-bold mb-0 text-dark text-truncate"
+                                                        style="max-width: 110px; font-size: 0.95rem;">
+                                                        {{ $reservasi->penjualan->nama_pemesan }}</h6>
+                                                    <div class="d-flex flex-column align-items-end gap-1">
+                                                        {{-- @if ($reservasi->penjualan->status == 'paid')
+                                                            <span
+                                                                class="badge bg-success-subtle text-success border border-success-subtle rounded-pill"
+                                                                style="font-size: 0.65rem;">Dibayar</span>
+                                                        @else
+                                                            <span
+                                                                class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill"
+                                                                style="font-size: 0.65rem;">Belum Bayar</span>
+                                                        @endif --}}
+                                                        {{-- Trigger Modal Status Meja --}}
+                                                        <span onclick="openStatusModal({{ $reservasi->id }}, '{{ $reservasi->status }}')"
+                                                            class="badge bg-info-subtle text-info border border-info-subtle rounded-pill cursor-pointer"
+                                                            style="font-size: 0.65rem; cursor: pointer;">
+                                                            {{ ucfirst(str_replace('_', ' ', $reservasi->status)) }}
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                                @if ($reservasi->penjualan->no_telp)
+                                                    <div class="d-flex align-items-center text-muted mb-2">
+                                                        <i class="bi bi-whatsapp text-success me-1"
+                                                            style="font-size: 0.8rem;"></i>
+                                                        <span class="small"
+                                                            style="font-size: 0.75rem;">{{ $reservasi->penjualan->no_telp }}</span>
+                                                    </div>
+                                                @endif
+                                                {{-- no pesanan --}}
+                                                <div class="d-flex align-items-center text-muted mb-2">
+                                                    <i class="bi bi-receipt text-secondary me-1" style="font-size: 0.8rem;"></i>
+                                                    <span class="small"
+                                                        style="font-size: 0.75rem;">{{ $reservasi->penjualan->no_pesanan ?? 'No Pesanan' }}</span>
+                                                </div>
+                                                
+                                                <div class="d-flex gap-2">
+                                                    <div
+                                                        class="badge bg-light text-secondary border fw-normal d-flex align-items-center px-2">
+                                                        <i class="bi bi-people-fill me-1 text-primary"></i>
+                                                        {{ $reservasi->jumlah }} Org
+                                                    </div>
+                                                    <div
+                                                        class="badge bg-light text-secondary border fw-normal d-flex align-items-center px-2">
+                                                        <i class="bi bi-grid-fill me-1 text-primary"></i>
+                                                        {{ $reservasi->meja_info->name }}
+                                                    </div>
+                                                    {{-- area --}}
+                                                    @if ($reservasi->meja_info->area)
+                                                        <div
+                                                            class="badge bg-light text-secondary border fw-normal d-flex align-items-center px-2">
+                                                            <i class="bi bi-building me-1 text-primary"></i>
+                                                            {{ $reservasi->meja_info->area->name }}
+                                                        </div>
+                                                    @endif
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endif
+                            @empty
+                                <div class="text-center text-muted p-5">
+                                    <i class="bi bi-calendar-x fs-2 d-block mb-2"></i>
+                                    <h6 class="fw-bold">Tidak Ada Reservasi</h6>
+                                    <p class="small">Belum ada data untuk hari ini.</p>
+                                </div>
+                            @endforelse
+                        </div>
                     </div>
                 </div>
                 <div class="col-md-9">
@@ -337,231 +260,59 @@
                                 </div>
                             </div>
                             <div class="col d-flex align-items-center gap-2 justify-content-end">
+                                {{-- manage area --}}
+                                <a href="{{ route('area') }}" class="btn btn-sm btn-outline-secondary rounded px-3">
+                                    <i class="bi bi-gear me-1"></i>Manage Area
+                                </a>
+                                {{-- tombol tambah meja --}}
+                                <a href="{{ route('manajement.meja.create') }}"
+                                    class="btn btn-sm btn-outline-primary rounded px-3"><i
+                                        class="bi bi-plus-lg me-1"></i>Tambah Meja</a>
                                 {{-- tempat jadi bisa di teras, di dalam dll --}}
-                                <span class="btn btn-sm btn btn-outline-secondary  border border-secondary-subtle ">Lantai
-                                    1</span>
-                                <span class="btn btn-sm btn btn-outline-secondary  border border-secondary-subtle ">Lantai
-                                    2</span>
-                                <span
-                                    class="btn btn-sm btn btn-outline-secondary  border border-success-subtle ">Teras</span>
+                                @foreach ($areas as $tempat)
+                                    <span
+                                        class="btn btn-sm btn-outline-secondary  border border-secondary-subtle ">{{ $tempat->name }}</span>
+                                @endforeach
+
                             </div>
                         </div>
                         <hr>
-                        <div class="manajement">
+                        <div class="manajement" style="max-height: 600px; overflow-y: auto; overflow-x: hidden;">
                             <div class="row g-4">
-                                {{-- Meja 1: Tersedia (4 Kursi) --}}
-                                <div class="col-6 col-lg-3">
-                                    <div class="meja-wrapper status-available d-flex flex-column align-items-center">
-                                        <div class="d-flex gap-3 mb-1">
-                                            <i class="fas fa-chair chair-icon rotate-180"></i>
-                                            <i class="fas fa-chair chair-icon rotate-180"></i>
-                                        </div>
-                                        <div class="meja-content w-100 py-3">
-                                            <h5 class="fw-bold mb-0">Meja 1</h5>
-                                            <span class="meja-info">4 Kursi</span>
-                                        </div>
-                                        <div class="d-flex gap-3 mt-1">
-                                            <i class="fas fa-chair chair-icon"></i>
-                                            <i class="fas fa-chair chair-icon"></i>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                {{-- Meja 2: Terisi (2 Kursi) --}}
-                                <div class="col-6 col-lg-3">
-                                    <div class="meja-wrapper status-occupied d-flex flex-column align-items-center">
-                                        <div class="d-flex gap-3 mb-1">
-                                            <i class="fas fa-chair chair-icon rotate-180 active"></i>
-                                        </div>
-                                        <div class="meja-content w-100 py-3">
-                                            <h5 class="fw-bold mb-0">Meja 2</h5>
-                                            <span class="meja-info"><i class="bi bi-clock-history me-1"></i>00:45</span>
-                                        </div>
-                                        <div class="d-flex gap-3 mt-1">
-                                            <i class="fas fa-chair chair-icon active"></i>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                {{-- Meja 3: Reservasi (6 Kursi) --}}
-                                <div class="col-12 col-lg-3">
-                                    <div class="meja-wrapper status-reserved d-flex flex-column align-items-center">
-                                        <div class="d-flex gap-4 mb-1">
-                                            <i class="fas fa-chair chair-icon rotate-180"></i>
-                                            <i class="fas fa-chair chair-icon rotate-180"></i>
-                                            <i class="fas fa-chair chair-icon rotate-180"></i>
-                                        </div>
-                                        <div class="meja-content w-100 py-3">
-                                            <h5 class="fw-bold mb-0">Meja 3</h5>
-                                            <span class="meja-info">Rsrv: 19:00 (Ahmad)</span>
-                                        </div>
-                                        <div class="d-flex gap-4 mt-1">
-                                            <i class="fas fa-chair chair-icon"></i>
-                                            <i class="fas fa-chair chair-icon"></i>
-                                            <i class="fas fa-chair chair-icon"></i>
+                                @foreach ($managementMejas as $meja)
+                                    @php
+                                        $kursi = $meja->jumlah_kursi;
+                                        $terpakai = $meja->terpakai;
+                                        $atas = ceil($kursi / 2);
+                                        $bawah = floor($kursi / 2);
+                                        $statusClass = $terpakai == $kursi ? 'status-occupied' : 'status-available';
+                                    @endphp
+                                    <div class="col-6 col-lg-3">
+                                        <div
+                                            class="meja-wrapper {{ $statusClass }} d-flex flex-column align-items-center">
+                                            <div class="d-flex gap-2 mb-1">
+                                                @for ($i = 0; $i < $atas; $i++)
+                                                    <i
+                                                        class="fas fa-chair chair-icon rotate-180 {{ $statusClass == 'status-occupied' ? 'active' : '' }}"></i>
+                                                @endfor
+                                            </div>
+                                            <div class="meja-content w-100 py-3">
+                                                <h5 class="fw-bold mb-0">{{ $meja->name }}</h5>
+                                                <span class="meja-info">{{ $meja->jumlah_kursi }}/{{ $meja->terpakai }}
+                                                    <i class="bi bi-people-fill"></i></span>
+                                                @if ($meja->area)
+                                                    <span class="meja-info small  d-block">{{ $meja->area->name }}</span>
+                                                @endif
+                                            </div>
+                                            <div class="d-flex gap-2 mt-1">
+                                                @for ($i = 0; $i < $bawah; $i++)
+                                                    <i
+                                                        class="fas fa-chair chair-icon {{ $statusClass == 'status-occupied' ? 'active' : '' }}"></i>
+                                                @endfor
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-
-                                {{-- Meja 4: Tersedia (2 Kursi Kiri Kanan) --}}
-                                <div class="col-6 col-lg-3">
-                                    <div
-                                        class="meja-wrapper status-available d-flex align-items-center justify-content-center h-100">
-                                        <div class="d-flex flex-column gap-2 me-1">
-                                            <i class="fas fa-chair chair-icon rotate-90"></i>
-                                        </div>
-                                        <div class="meja-content flex-grow-1 py-4 px-2">
-                                            <h5 class="fw-bold mb-0">Meja 4</h5>
-                                            <span class="meja-info">2 Kursi</span>
-                                        </div>
-                                        <div class="d-flex flex-column gap-2 ms-1">
-                                            <i class="fas fa-chair chair-icon rotate-270"></i>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                {{-- Meja 5: Tersedia (4 Kursi) --}}
-                                <div class="col-6 col-lg-3">
-                                    <div class="meja-wrapper status-available d-flex flex-column align-items-center">
-                                        <div class="d-flex gap-3 mb-1">
-                                            <i class="fas fa-chair chair-icon rotate-180"></i>
-                                            <i class="fas fa-chair chair-icon rotate-180"></i>
-                                        </div>
-                                        <div class="meja-content w-100 py-3">
-                                            <h5 class="fw-bold mb-0">Meja 5</h5>
-                                            <span class="meja-info">4 Kursi</span>
-                                        </div>
-                                        <div class="d-flex gap-3 mt-1">
-                                            <i class="fas fa-chair chair-icon"></i>
-                                            <i class="fas fa-chair chair-icon"></i>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                {{-- Meja 6: Terisi (4 Kursi) --}}
-                                <div class="col-6 col-lg-3">
-                                    <div class="meja-wrapper status-occupied d-flex flex-column align-items-center">
-                                        <div class="d-flex gap-3 mb-1">
-                                            <i class="fas fa-chair chair-icon rotate-180 active"></i>
-                                            <i class="fas fa-chair chair-icon rotate-180 active"></i>
-                                        </div>
-                                        <div class="meja-content w-100 py-3">
-                                            <h5 class="fw-bold mb-0">Meja 6</h5>
-                                            <span class="meja-info"><i class="bi bi-clock-history me-1"></i>01:15</span>
-                                        </div>
-                                        <div class="d-flex gap-3 mt-1">
-                                            <i class="fas fa-chair chair-icon active"></i>
-                                            <i class="fas fa-chair chair-icon active"></i>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                {{-- Meja 7: Tersedia (2 Kursi) --}}
-                                <div class="col-6 col-lg-3">
-                                    <div class="meja-wrapper status-available d-flex flex-column align-items-center">
-                                        <div class="d-flex gap-3 mb-1">
-                                            <i class="fas fa-chair chair-icon rotate-180"></i>
-                                        </div>
-                                        <div class="meja-content w-100 py-3">
-                                            <h5 class="fw-bold mb-0">Meja 7</h5>
-                                            <span class="meja-info">2 Kursi</span>
-                                        </div>
-                                        <div class="d-flex gap-3 mt-1">
-                                            <i class="fas fa-chair chair-icon"></i>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                {{-- Meja 8: Reservasi (4 Kursi) --}}
-                                <div class="col-6 col-lg-3">
-                                    <div class="meja-wrapper status-reserved d-flex flex-column align-items-center">
-                                        <div class="d-flex gap-3 mb-1">
-                                            <i class="fas fa-chair chair-icon rotate-180"></i>
-                                            <i class="fas fa-chair chair-icon rotate-180"></i>
-                                        </div>
-                                        <div class="meja-content w-100 py-3">
-                                            <h5 class="fw-bold mb-0">Meja 8</h5>
-                                            <span class="meja-info">Rsrv: 20:00 (Budi)</span>
-                                        </div>
-                                        <div class="d-flex gap-3 mt-1">
-                                            <i class="fas fa-chair chair-icon"></i>
-                                            <i class="fas fa-chair chair-icon"></i>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                {{-- Meja 9: Tersedia (6 Kursi) --}}
-                                <div class="col-12 col-lg-3">
-                                    <div class="meja-wrapper status-available d-flex flex-column align-items-center">
-                                        <div class="d-flex gap-4 mb-1">
-                                            <i class="fas fa-chair chair-icon rotate-180"></i>
-                                            <i class="fas fa-chair chair-icon rotate-180"></i>
-                                            <i class="fas fa-chair chair-icon rotate-180"></i>
-                                        </div>
-                                        <div class="meja-content w-100 py-3">
-                                            <h5 class="fw-bold mb-0">Meja 9</h5>
-                                            <span class="meja-info">6 Kursi</span>
-                                        </div>
-                                        <div class="d-flex gap-4 mt-1">
-                                            <i class="fas fa-chair chair-icon"></i>
-                                            <i class="fas fa-chair chair-icon"></i>
-                                            <i class="fas fa-chair chair-icon"></i>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                {{-- Meja 10: Terisi (2 Kursi Kiri Kanan) --}}
-                                <div class="col-6 col-lg-3">
-                                    <div class="meja-wrapper status-occupied d-flex align-items-center justify-content-center h-100">
-                                        <div class="d-flex flex-column gap-2 me-1">
-                                            <i class="fas fa-chair chair-icon rotate-90 active"></i>
-                                        </div>
-                                        <div class="meja-content flex-grow-1 py-4 px-2">
-                                            <h5 class="fw-bold mb-0">Meja 10</h5>
-                                            <span class="meja-info"><i class="bi bi-clock-history me-1"></i>00:20</span>
-                                        </div>
-                                        <div class="d-flex flex-column gap-2 ms-1">
-                                            <i class="fas fa-chair chair-icon rotate-270 active"></i>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                {{-- Meja 11: Tersedia (4 Kursi) --}}
-                                <div class="col-6 col-lg-3">
-                                    <div class="meja-wrapper status-available d-flex flex-column align-items-center">
-                                        <div class="d-flex gap-3 mb-1">
-                                            <i class="fas fa-chair chair-icon rotate-180"></i>
-                                            <i class="fas fa-chair chair-icon rotate-180"></i>
-                                        </div>
-                                        <div class="meja-content w-100 py-3">
-                                            <h5 class="fw-bold mb-0">Meja 11</h5>
-                                            <span class="meja-info">4 Kursi</span>
-                                        </div>
-                                        <div class="d-flex gap-3 mt-1">
-                                            <i class="fas fa-chair chair-icon"></i>
-                                            <i class="fas fa-chair chair-icon"></i>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                {{-- Meja 12: Tersedia (4 Kursi) --}}
-                                <div class="col-6 col-lg-3">
-                                    <div class="meja-wrapper status-available d-flex flex-column align-items-center">
-                                        <div class="d-flex gap-3 mb-1">
-                                            <i class="fas fa-chair chair-icon rotate-180"></i>
-                                            <i class="fas fa-chair chair-icon rotate-180"></i>
-                                        </div>
-                                        <div class="meja-content w-100 py-3">
-                                            <h5 class="fw-bold mb-0">Meja 12</h5>
-                                            <span class="meja-info">4 Kursi</span>
-                                        </div>
-                                        <div class="d-flex gap-3 mt-1">
-                                            <i class="fas fa-chair chair-icon"></i>
-                                            <i class="fas fa-chair chair-icon"></i>
-                                        </div>
-                                    </div>
-                                </div>
-
+                                @endforeach
                             </div>
                         </div>
                     </div>
@@ -569,7 +320,64 @@
             </div>
         </div>
     </div>
+
+    {{-- Modal Update Status Akses Meja --}}
+    <div class="modal fade" id="modalStatusAkses" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-sm modal-dialog-centered">
+            <div class="modal-content rounded-4 border-0 shadow">
+                <div class="modal-header border-0 pb-0">
+                    <h6 class="modal-title fw-bold">Status Meja</h6>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="formUpdateStatus">
+                        <input type="hidden" id="akses_meja_id" name="id">
+                        <div class="mb-3">
+                            <select class="form-select form-select-sm" name="status" id="status_akses">
+                                <option value="reservasi">Reservasi</option>
+                                <option value="sedang_digunakan">Sedang Digunakan</option>
+                                <option value="selesai">Selesai</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-sm w-100 rounded-3">Simpan</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
 
 @section('script')
+    <script>
+        function openStatusModal(id, status) {
+            document.getElementById('akses_meja_id').value = id;
+            document.getElementById('status_akses').value = status;
+            var myModal = new bootstrap.Modal(document.getElementById('modalStatusAkses'));
+            myModal.show();
+        }
+
+        document.getElementById('formUpdateStatus').addEventListener('submit', function(e) {
+            e.preventDefault();
+            let formData = new FormData(this);
+
+            // Pastikan route 'akses_meja.update_status' sudah dibuat di web.php
+            fetch('{{ route('akses_meja.update_status') }}', {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                        'Accept': 'application/json'
+                    },
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        location.reload();
+                    } else {
+                        alert('Gagal update status');
+                    }
+                })
+                .catch(error => console.error('Error:', error));
+        });
+    </script>
 @endsection

@@ -106,6 +106,7 @@ class ProdukController extends Controller
      */
     public function destroy($id)
     {
+        $produk = Produk::findOrFail($id);
         if ($produk->gambar && file_exists(public_path('img/produk/' . $produk->gambar))) {
             unlink(public_path('img/produk/' . $produk->gambar));
         }

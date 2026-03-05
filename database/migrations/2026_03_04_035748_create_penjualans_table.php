@@ -27,12 +27,12 @@ return new class extends Migration
             $table->dateTime('tanggal_penjualan')->nullable();
 
             $table->timestamps();
-        });
+        }); 
     }
 
     /**
      * Reverse the migrations.
-     */
+     */ 
     public function down(): void
     {
         Schema::dropIfExists('penjualans');

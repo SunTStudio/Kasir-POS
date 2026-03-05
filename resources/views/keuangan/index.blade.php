@@ -122,9 +122,20 @@
                                     <td class="ps-4 fw-bold">#{{ $transaksi->id }}</td>
                                     <td>{{ $transaksi->created_at->format('d M Y, H:i') }}</td>
                                     <td class="fw-bold text-success">Rp
-                                        {{ number_format($transaksi->total_price, 0, ',', '.') }}</td>
+                                        {{ number_format($transaksi->total_amount, 0, ',', '.') }}</td>
                                     <td>
-                                        <span class="badge bg-success-subtle text-success rounded-pill px-3">Selesai</span>
+                                        @if ($transaksi->status == 'paid')
+                                            <span
+                                                class="badge bg-success-subtle text-success rounded-pill px-3">Selesai</span>
+                                        @elseif($transaksi->status == 'pending')
+                                            <span
+                                                class="badge bg-warning-subtle text-warning rounded-pill px-3">Pending</span>
+                                        @elseif($transaksi->status == 'cancelled')
+                                            <span class="badge bg-danger-subtle text-danger rounded-pill px-3">Batal</span>
+                                        @else
+                                            <span
+                                                class="badge bg-secondary-subtle text-secondary rounded-pill px-3">{{ ucfirst($transaksi->status) }}</span>
+                                        @endif
                                     </td>
                                     <td class="pe-4 text-end">
                                         <button type="button" class="btn btn-sm btn-outline-secondary rounded-3"
@@ -169,26 +180,24 @@
                             {{-- Info Transaksi --}}
                             <div class="small mb-2">
                                 <div class="d-flex justify-content-between">
-                                    <span>No: {{ $transaksi->id }}</span>
+                                    <span>No: {{ $transaksi->no_pesanan ?? $transaksi->id }}</span>
                                     <span>{{ $transaksi->created_at->format('d/m/y H:i') }}</span>
                                 </div>
-                                <div>Kasir: Admin</div>
+                                <div>Pemesan: {{ $transaksi->nama_pemesan ?? 'Umum' }}</div>
                             </div>
 
                             <div class="border-bottom border-dark border-1 mb-2" style="border-style: dashed !important;">
                             </div>
 
-                            {{-- Item Pesanan (Dummy Split untuk contoh) --}}
+                            {{-- Item Pesanan --}}
                             <div class="small mb-3">
-                                <div class="d-flex justify-content-between mb-1">
-                                    <span>1x Paket Spesial</span>
-                                    <span>{{ number_format($transaksi->total_price, 0, ',', '.') }}</span>
-                                </div>
-                                {{-- Contoh item tambahan jika ada --}}
-                                {{-- <div class="d-flex justify-content-between mb-1">
-                                    <span>1x Es Teh Manis</span>
-                                    <span>5.000</span>
-                                </div> --}}
+                                @foreach ($transaksi->penjualans as $item)
+                                    <div class="d-flex justify-content-between mb-1">
+                                        <span>{{ $item->jumlah }}x
+                                            {{ $item->produk->nama_produk ?? 'Produk' }}</span>
+                                        <span>{{ number_format($item->harga * $item->jumlah, 0, ',', '.') }}</span>
+                                    </div>
+                                @endforeach
                             </div>
 
                             <div class="border-bottom border-dark border-1 mb-2" style="border-style: dashed !important;">
@@ -197,11 +206,11 @@
                             {{-- Total --}}
                             <div class="d-flex justify-content-between fw-bold mb-1">
                                 <span>TOTAL</span>
-                                <span>Rp {{ number_format($transaksi->total_price, 0, ',', '.') }}</span>
+                                <span>Rp {{ number_format($transaksi->total_amount, 0, ',', '.') }}</span>
                             </div>
                             <div class="d-flex justify-content-between small mb-1">
                                 <span>Tunai</span>
-                                <span>Rp {{ number_format($transaksi->total_price, 0, ',', '.') }}</span>
+                                <span>Rp {{ number_format($transaksi->total_amount, 0, ',', '.') }}</span>
                             </div>
                             <div class="d-flex justify-content-between small mb-3">
                                 <span>Kembali</span>

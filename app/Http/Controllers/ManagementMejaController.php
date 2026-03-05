@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AksesMeja;
+use App\Models\Area;
 use App\Models\ManagementMeja;
 use Illuminate\Http\Request;
 
@@ -12,15 +14,31 @@ class ManagementMejaController extends Controller
      */
     public function index()
     {
-        return view('meja.index');
+        $areas = Area::all();
+        $managementMejas = ManagementMeja::with('area')->get();
+        // cek apakah mejanya udah diakses semua melalui cek model akses meja
+        foreach($managementMejas as $managementMeja){
+            // Ambil data reservasi hari ini beserta data penjualan
+            $reservasi = AksesMeja::with('penjualan')
+                ->where('management_meja_id', $managementMeja->id)
+                ->where('status', '!=', 'selesai')
+                ->whereDate('created_at', now()->toDateString())
+                ->get();
+
+            $managementMeja->reservasi_list = $reservasi;
+            $managementMeja->terpakai = $reservasi->sum('jumlah');
+        }
+        return view('meja.index', compact('areas', 'managementMejas'));
+
     }
 
     /**
      * Show the form for creating a new resource.
-     */
+     */ 
     public function create()
     {
-        return view('meja.create');
+        $areas = Area::all();
+        return view('meja.create', compact('areas'));
     }
 
     /**
@@ -28,7 +46,15 @@ class ManagementMejaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'area_id' => 'required|exists:areas,id',
+            'jumlah_kursi' => 'required|integer|min:1',
+        ]);
+
+        ManagementMeja::create($validated);
+
+        return redirect()->route('manajement.meja')->with('success', 'Meja berhasil ditambahkan!');
     }
 
     /**
@@ -61,5 +87,19 @@ class ManagementMejaController extends Controller
     public function destroy(ManagementMeja $managementMeja)
     {
         //
+    }
+
+    public function updateStatusAksesMeja(Request $request)
+    {
+        $request->validate([
+            'id' => 'required|exists:akses_mejas,id',
+            'status' => 'required|in:sedang_digunakan,selesai,reservasi',
+        ]);
+
+        $aksesMeja = AksesMeja::findOrFail($request->id);
+        $aksesMeja->status = $request->status;
+        $aksesMeja->save();
+
+        return response()->json(['success' => true]);
     }
 }
