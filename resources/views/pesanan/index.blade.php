@@ -28,26 +28,26 @@
                 <h5 class="card-title">Daftar Pesanan</h5>
                 <div class="d-flex gap-2 flex-wrap">
                     {{-- tombol all, baru, dimasak, siap, selesai, batal,dll --}}
-                    <button class="btn btn-sm btn-dark rounded px-3">
-                        All <span class="badge bg-white text-dark ms-1">{{ $penjualanans->count() }}</span>
+                    <button class="btn btn-sm btn-dark rounded px-3 filter-btn" data-status="all" data-color="dark">
+                        All <span class="badge bg-white text-dark border border-dark ms-1">{{ $penjualanans->count() }}</span>
                     </button>
-                    <button class="btn btn-sm btn-outline-primary rounded px-3">
+                    <button class="btn btn-sm btn-outline-primary rounded px-3 filter-btn" data-status="pending" data-color="primary">
                         Baru <span
                             class="badge bg-white text-dark border border-primary ms-1">{{ $penjualanans->where('status', 'pending')->count() }}</span>
                     </button>
-                    <button class="btn btn-sm btn-outline-warning rounded px-3">
+                    <button class="btn btn-sm btn-outline-warning rounded px-3 filter-btn" data-status="cooking" data-color="warning">
                         Dimasak <span
                             class="badge bg-white text-dark border border-warning ms-1">{{ $penjualanans->where('status', 'cooking')->count() }}</span>
                     </button>
-                    <button class="btn btn-sm btn-outline-success rounded px-3">
+                    <button class="btn btn-sm btn-outline-success rounded px-3 filter-btn" data-status="served" data-color="success">
                         Siap <span
                             class="badge bg-white text-dark border border-success ms-1">{{ $penjualanans->where('status', 'served')->count() }}</span>
                     </button>
-                    <button class="btn btn-sm btn-outline-secondary rounded px-3">
+                    <button class="btn btn-sm btn-outline-secondary rounded px-3 filter-btn" data-status="paid" data-color="secondary">
                         Selesai <span
                             class="badge bg-white text-dark border border-secondary ms-1">{{ $penjualanans->where('status', 'paid')->count() }}</span>
                     </button>
-                    <button class="btn btn-sm btn-outline-danger rounded px-3">
+                    <button class="btn btn-sm btn-outline-danger rounded px-3 filter-btn" data-status="cancelled" data-color="danger">
                         Batal <span
                             class="badge bg-white text-dark border border-danger ms-1">{{ $penjualanans->where('status', 'cancelled')->count() }}</span>
                     </button>
@@ -70,7 +70,7 @@
                 @endphp
 
                 @if ($groupOrders->count() > 0)
-                    <div class="mb-4">
+                    <div class="mb-4 status-section" data-status="{{ $statusKey }}">
                         <h6 class="fw-bold text-{{ $group['color'] }} border-bottom pb-2 mb-3">
                             {{ $group['label'] }}
                             <span
@@ -109,10 +109,16 @@
                                                         @endphp
                                                         <span
                                                             class="badge bg-{{ $statusColor }}-subtle text-{{ $statusColor }} rounded-pill px-3">{{ $statusLabel }}</span>
-                                                        <div class="mt-1">
-                                                            <span class="badge bg-light text-dark border fw-normal"><i
-                                                                    class="bi bi-grid-fill me-1 text-primary"></i> Meja
-                                                                {{ $penjualan->meja_id ?? '-' }}</span>
+                                                        <div class="mt-1 d-flex flex-wrap gap-1 justify-content-end">
+                                                            @forelse ($penjualan->meja_details as $meja)
+                                                                <span class="badge bg-light text-dark border fw-normal">
+                                                                    <i class="bi bi-geo-alt-fill me-1 text-danger"></i>
+                                                                    {{ $meja->area_name }} | <i class="fas fa-chair chair-icon"></i>{{ $meja->table_name }}
+                                                                </span>
+                                                            @empty
+                                                                <span
+                                                                    class="badge bg-light text-dark border fw-normal">-</span>
+                                                            @endforelse
                                                         </div>
                                                     </div>
                                                 </div>
@@ -136,30 +142,43 @@
                                                         </div>
                                                     @endforeach
                                                 </div>
-                                                <div
-                                                    class="d-flex justify-content-between align-items-center border-top pt-3">
-                                                    <div>
-                                                        <small class="text-muted d-block">Total Tagihan</small>
-                                                        @php
-                                                            $total = $penjualan->itemPenjualanan->sum(function ($item) {
-                                                                return $item->jumlah * $item->harga;
-                                                            });
-                                                        @endphp
-                                                        <span class="fw-bold text-primary">Rp
-                                                            {{ number_format($total, 0, ',', '.') }}</span>
+                                                <div class="border-top pt-2 mt-2">
+                                                    @php
+                                                        $subtotal = $penjualan->itemPenjualanan->sum(function ($item) {
+                                                            return $item->jumlah * $item->harga;
+                                                        });
+                                                        $tax = $subtotal * 0.1;
+                                                        $grandTotal = $subtotal + $tax;
+                                                    @endphp
+                                                    <div class="d-flex justify-content-between small mb-1">
+                                                        <span class="text-muted">Subtotal</span>
+                                                        <span class="fw-medium">Rp
+                                                            {{ number_format($subtotal, 0, ',', '.') }}</span>
                                                     </div>
-                                                    <div class="btn-group">
-                                                        <button class="btn btn-sm btn-outline-secondary"><i
-                                                                class="bi bi-eye"></i></button>
-                                                        <a href="{{ route('pesanan.struk', $penjualan->id) }}"
-                                                            target="_blank" class="btn btn-sm btn-outline-primary"><i
-                                                                class="bi bi-printer"></i></a>
-                                                        <button type="button" class="btn btn-sm btn-success text-white"
-                                                            data-bs-toggle="modal" data-bs-target="#updateStatusModal"
-                                                            data-url="{{ route('pesanan.update.status', $penjualan->id) }}"
-                                                            data-status="{{ $penjualan->status }}"
-                                                            data-no="{{ $penjualan->no_pesanan }}">Proses <i
-                                                                class="bi bi-arrow-right ms-1"></i></button>
+                                                    <div class="d-flex justify-content-between small mb-2">
+                                                        <span class="text-muted">PPN (10%)</span>
+                                                        <span class="text-danger">Rp
+                                                            {{ number_format($tax, 0, ',', '.') }}</span>
+                                                    </div>
+                                                    <div class="d-flex justify-content-between align-items-center">
+                                                        <div>
+                                                            <small class="text-muted d-block"
+                                                                style="font-size: 0.7rem;">Total Bayar</small>
+                                                            <span class="fw-bold text-primary fs-6">Rp
+                                                                {{ number_format($grandTotal, 0, ',', '.') }}</span>
+                                                        </div>
+                                                        <div class="btn-group">
+
+                                                            <a href="{{ route('pesanan.struk', $penjualan->id) }}"
+                                                                target="_blank" class="btn btn-sm btn-outline-primary"><i
+                                                                    class="bi bi-printer"></i></a>
+                                                            <button type="button" class="btn btn-sm btn-success text-white"
+                                                                data-bs-toggle="modal" data-bs-target="#updateStatusModal"
+                                                                data-url="{{ route('pesanan.update.status', $penjualan->id) }}"
+                                                                data-status="{{ $penjualan->status }}"
+                                                                data-no="{{ $penjualan->no_pesanan }}">Proses <i
+                                                                    class="bi bi-arrow-right ms-1"></i></button>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -258,6 +277,37 @@
                         });
                 });
             }
+
+            // Filter Logic
+            const filterBtns = document.querySelectorAll('.filter-btn');
+            const statusSections = document.querySelectorAll('.status-section');
+
+            filterBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const status = this.getAttribute('data-status');
+                    const color = this.getAttribute('data-color');
+
+                    // Reset all buttons
+                    filterBtns.forEach(b => {
+                        const bColor = b.getAttribute('data-color');
+                        b.classList.remove(`btn-${bColor}`);
+                        b.classList.add(`btn-outline-${bColor}`);
+                    });
+
+                    // Activate clicked button
+                    this.classList.remove(`btn-outline-${color}`);
+                    this.classList.add(`btn-${color}`);
+
+                    // Filter sections
+                    statusSections.forEach(section => {
+                        if (status === 'all' || section.getAttribute('data-status') === status) {
+                            section.classList.remove('d-none');
+                        } else {
+                            section.classList.add('d-none');
+                        }
+                    });
+                });
+            });
         });
     </script>
 @endsection

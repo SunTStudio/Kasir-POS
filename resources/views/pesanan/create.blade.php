@@ -6,8 +6,8 @@
 
 @section('content')
     <div class="card">
-        <div class="card-body p-4">
-            <div class="head d-flex justify-content-between align-items-center mb-4 ">
+        <div class="card-body p-2 p-md-4">
+            <div class="head d-flex justify-content-between align-items-center mb-3 mb-md-4 ">
                 <h5 class="card-title">Point Of Sales (POS)</h5>
                 <a href="" class="btn-sm btn btn-warning">+ New Order</a>
             </div>
@@ -29,12 +29,13 @@
                                 </div>
                             </form>
                             <div class="kategori d-flex align-items-center mb-3 mt-2">
-                                <div class="d-flex gap-2 overflow-auto">
-                                    <button type="button" class="btn btn-success btn-sm rounded-pill px-3 category-filter"
+                                <div class="d-flex gap-2 overflow-auto flex-nowrap w-100 pb-2">
+                                    <button type="button"
+                                        class="btn btn-success btn-sm rounded-pill px-3 category-filter text-nowrap flex-shrink-0"
                                         data-category="all">Show All</button>
                                     @foreach ($kategoris as $kat)
                                         <button type="button"
-                                            class="btn btn-outline-secondary btn-sm rounded-pill px-3 category-filter"
+                                            class="btn btn-outline-secondary btn-sm rounded-pill px-3 category-filter text-nowrap flex-shrink-0"
                                             data-category="{{ $kat->id }}">{{ $kat->name }}</button>
                                     @endforeach
                                 </div>
@@ -53,10 +54,10 @@
                                                 @if ($product->gambar)
                                                     <img src="{{ asset('img/produk/' . $product->gambar) }}"
                                                         class="card-img-top" alt="{{ $product->name }}"
-                                                        style="height: 140px; object-fit: cover;">
+                                                        style="height: 120px; object-fit: cover;">
                                                 @else
                                                     <div class="bg-light d-flex align-items-center justify-content-center"
-                                                        style="height: 140px;">
+                                                        style="height: 120px;">
                                                         <i class="bi bi-image text-muted display-6"></i>
                                                     </div>
                                                 @endif
@@ -65,10 +66,11 @@
                                                     style="font-size: 0.75rem;">{{ $product->kategori->name ?? 'Umum' }}</span>
                                             </div>
                                             <div class="card-body p-3 d-flex flex-column">
-                                                <h6 class="card-title fw-bold mb-2 text-truncate">{{ $product->name }}
+                                                <h6 class="card-title fw-bold mb-2 text-truncate"
+                                                    style="font-size: 0.9rem;">{{ $product->name }}
                                                 </h6>
                                                 <div class="mt-auto d-flex justify-content-between align-items-center">
-                                                    <span class="fw-bold text-primary">Rp
+                                                    <span class="fw-bold text-primary" style="font-size: 0.85rem;">Rp
                                                         {{ number_format($product->harga, 0, ',', '.') }}</span>
                                                     <button
                                                         class="btn btn-primary btn-sm rounded-circle d-flex align-items-center justify-content-center shadow-sm add-to-cart"
@@ -112,7 +114,7 @@
                                     <label class="small text-muted fw-bold mb-1">No. Meja</label>
 
                                     <button type="button"
-                                        class="btn btn-outline-secondary w-100 text-start d-flex justify-content-between align-items-center"
+                                        class="btn bg-white border w-100 text-start d-flex justify-content-between align-items-center"
                                         data-bs-toggle="modal" data-bs-target="#modalPilihMeja">
                                         <span id="selected-meja-text" class="text-truncate">Pilih Meja</span>
                                         <i class="bi bi-grid-3x3-gap"></i>
@@ -139,9 +141,9 @@
                                 </div>
                             </div>
                             <p class="fw-bold mb-3"><i class="bi bi-cart4 me-2"></i>Order #21</p>
-                            <div id="cart-items" class="overflow-auto" style="max-height: 400px;">
+                            <div id="cart-items" class="overflow-auto" style="max-height: 50vh;">
                                 <div class="text-center text-muted py-5">
-                                    <i class="bi bi-cart-x display-1"></i>
+                                    <i class="bi bi-cart-x fs-3"></i>
                                     <p class="mt-2">Belum ada pesanan</p>
                                 </div>
                             </div>
@@ -190,7 +192,7 @@
                     <div class="modal-body p-4">
                         <div class="text-center mb-4">
                             <p class="text-muted mb-1 small text-uppercase fw-bold">Total Tagihan</p>
-                            <h2 class="fw-bold text-primary display-6" id="checkout-total">Rp 0</h2>
+                            <h2 class="fw-bold text-primary fs-2" id="checkout-total">Rp 0</h2>
                             {{-- input hidden untuk menyimpan total tagihan --}}
                             <input type="hidden" name="total_tagihan" id="total_tagihan">
                         </div>
@@ -265,7 +267,7 @@
                 </div>
                 <div class="modal-body">
                     <div class="table-responsive">
-                        <table class="table table-bordered table-hover w-100" id="tableMeja">
+                        <table class="table table-bordered table-hover" id="tableMeja" style="width:100%">
                             <thead class="table-light">
                                 <tr>
                                     <th class="text-center" width="50">Pilih</th>
@@ -323,16 +325,22 @@
 
             // Init DataTable Meja
             tableMeja = $('#tableMeja').DataTable({
-                paging: false, // Disable paging agar user bisa scroll dan lihat semua sekaligus
+                paging: false,
                 scrollY: '300px',
                 scrollCollapse: true,
                 searching: true,
-                info: false
+                info: false,
+                autoWidth: false
+            });
+
+            $('#modalPilihMeja').on('shown.bs.modal', function() {
+                tableMeja.columns.adjust();
             });
 
             // Handle tombol Simpan di Modal Meja
             $('#btnSimpanMeja').on('click', function() {
                 updateSelectedMejaDisplay();
+                validateCheckoutButton();
             });
 
             const buttons = document.querySelectorAll('.add-to-cart');
@@ -527,6 +535,7 @@
                     waktuSelect.dispatchEvent(new Event('change'));
                     waktuPesananContainer.classList.add('d-none');
                 }
+                validateCheckoutButton();
             });
         });
 
@@ -574,10 +583,10 @@
             if (cart.length === 0) {
                 cartContainer.innerHTML = `
                 <div class="text-center text-muted py-5">
-                    <i class="bi bi-cart-x display-1"></i>
+                    <i class="bi bi-cart-x fs-3"></i>
                     <p class="mt-2">Belum ada pesanan</p>
                 </div>`;
-                checkoutBtn.disabled = true;
+                // checkoutBtn.disabled = true;
             } else {
                 cart.forEach(item => {
                     subtotal += item.price * item.qty;
@@ -602,7 +611,7 @@
                     </div>
                 `;
                 });
-                checkoutBtn.disabled = false;
+                // checkoutBtn.disabled = false;
             }
 
             const tax = subtotal * 0.1;
@@ -612,6 +621,7 @@
             taxEl.innerText = formatRupiah(tax);
             totalEl.innerText = formatRupiah(total);
             checkoutBtn.dataset.total = total; // Simpan total ke tombol untuk diambil modal
+            validateCheckoutButton();
         }
 
         window.updateQty = function(id, change) {
@@ -623,6 +633,31 @@
                 }
                 renderCart();
             }
+        }
+
+        function validateCheckoutButton() {
+            const btn = document.getElementById('btn-checkout');
+            if (!btn) return;
+
+            const cartValid = cart.length > 0;
+            const jenisSelect = document.getElementById('jenis_id_display');
+            const jenisValue = jenisSelect ? jenisSelect.value : '';
+            const jenisValid = jenisValue !== "";
+
+            let mejaValid = false;
+
+            if (jenisValid) {
+                const selectedOption = jenisSelect.options[jenisSelect.selectedIndex];
+                const typeName = (selectedOption.getAttribute('data-name') || '').toLowerCase();
+
+                if (typeName.includes('take away') || typeName.includes('takeaway')) {
+                    mejaValid = true;
+                } else if (typeof tableMeja !== 'undefined') {
+                    mejaValid = tableMeja.$('input.meja-checkbox:checked').length > 0;
+                }
+            }
+
+            btn.disabled = !(cartValid && jenisValid && mejaValid);
         }
 
         function formatRupiah(number) {

@@ -120,19 +120,18 @@
     <div class="card">
         <div class="card-body">
             <div class="row">
-                <div class="col-md-3">
+                <div class="col-md-4 col-lg-4">
                     {{-- reservasi --}}
                     <div class="reservasi p-3 bg-light">
-                        <select name="kategori-reservasi" id="" class="form-select">
-                            <option value="">All</option>
-                            <option value="">Reservasi</option>
-                            <option value="">Makan Ditempat</option>
-                            <option value="">Dibayar</option>
-                            <option value="">Belum Dibayar</option>
+                        <select name="kategori-reservasi" id="filter-kategori" class="form-select">
+                            <option value="all">All</option>
+                            <option value="reservasi">Reservasi</option>
+                            <option value="dine_in">Dine In</option>
                         </select>
                         {{-- tanggal hari ini, bisa di geser tanggalnya --}}
                         <div class="tanggal-reservasi mt-3 mb-3">
-                            <input type="date" class="form-control" value="{{ date('Y-m-d') }}">
+                            <input type="date" id="filter-date" class="form-control"
+                                value="{{ request('date', date('Y-m-d')) }}">
                         </div>
                         {{-- search customer floating name input --}}
                         <div class="input-group mb-3">
@@ -144,7 +143,8 @@
                         {{-- <button class="btn btn-secondary w-100 mb-3 btn-sm"><i class="bi bi-plus-lg me-1"></i>Tambah
                             Reservasi / Permintaan</button> --}}
 
-                        <div class="reservasi-items" style="max-height: 500px; overflow-y: auto;">
+                        <div class="reservasi-items" id="reservasi-list-container"
+                            style="max-height: 500px; overflow-y: auto;">
                             @php
                                 $allReservations = collect();
                                 foreach ($managementMejas as $meja) {
@@ -155,94 +155,11 @@
                                 }
                                 $allReservations = $allReservations->sortBy('created_at');
                             @endphp
-
-                            @forelse($allReservations as $reservasi)
-                                @if ($reservasi->penjualan)
-                                    <div class="card border-0 shadow-sm mb-3 rounded-3 overflow-hidden">
-                                        <div class="d-flex align-items-stretch">
-                                            {{-- Kolom Waktu --}}
-                                            <div class="bg-secondary text-white p-2 d-flex flex-column justify-content-center align-items-center text-center"
-                                                style="min-width: 75px;">
-                                                <i class="bi bi-clock mb-1"></i>
-                                                <span
-                                                    class="fw-bold lh-1">{{ \Carbon\Carbon::parse($reservasi->created_at)->format('H:i') }}</span>
-                                                <span class="small text-white-50"
-                                                    style="font-size: 0.7rem;">{{ \Carbon\Carbon::parse($reservasi->created_at)->format('A') }}</span>
-                                            </div>
-                                            {{-- Kolom Detail --}}
-                                            <div class="p-2 flex-grow-1 bg-white">
-                                                <div class="d-flex justify-content-between align-items-start mb-1">
-                                                    <h6 class="fw-bold mb-0 text-dark text-truncate"
-                                                        style="max-width: 110px; font-size: 0.95rem;">
-                                                        {{ $reservasi->penjualan->nama_pemesan }}</h6>
-                                                    <div class="d-flex flex-column align-items-end gap-1">
-                                                        {{-- @if ($reservasi->penjualan->status == 'paid')
-                                                            <span
-                                                                class="badge bg-success-subtle text-success border border-success-subtle rounded-pill"
-                                                                style="font-size: 0.65rem;">Dibayar</span>
-                                                        @else
-                                                            <span
-                                                                class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill"
-                                                                style="font-size: 0.65rem;">Belum Bayar</span>
-                                                        @endif --}}
-                                                        {{-- Trigger Modal Status Meja --}}
-                                                        <span onclick="openStatusModal({{ $reservasi->id }}, '{{ $reservasi->status }}')"
-                                                            class="badge bg-info-subtle text-info border border-info-subtle rounded-pill cursor-pointer"
-                                                            style="font-size: 0.65rem; cursor: pointer;">
-                                                            {{ ucfirst(str_replace('_', ' ', $reservasi->status)) }}
-                                                        </span>
-                                                    </div>
-                                                </div>
-                                                @if ($reservasi->penjualan->no_telp)
-                                                    <div class="d-flex align-items-center text-muted mb-2">
-                                                        <i class="bi bi-whatsapp text-success me-1"
-                                                            style="font-size: 0.8rem;"></i>
-                                                        <span class="small"
-                                                            style="font-size: 0.75rem;">{{ $reservasi->penjualan->no_telp }}</span>
-                                                    </div>
-                                                @endif
-                                                {{-- no pesanan --}}
-                                                <div class="d-flex align-items-center text-muted mb-2">
-                                                    <i class="bi bi-receipt text-secondary me-1" style="font-size: 0.8rem;"></i>
-                                                    <span class="small"
-                                                        style="font-size: 0.75rem;">{{ $reservasi->penjualan->no_pesanan ?? 'No Pesanan' }}</span>
-                                                </div>
-                                                
-                                                <div class="d-flex gap-2">
-                                                    <div
-                                                        class="badge bg-light text-secondary border fw-normal d-flex align-items-center px-2">
-                                                        <i class="bi bi-people-fill me-1 text-primary"></i>
-                                                        {{ $reservasi->jumlah }} Org
-                                                    </div>
-                                                    <div
-                                                        class="badge bg-light text-secondary border fw-normal d-flex align-items-center px-2">
-                                                        <i class="bi bi-grid-fill me-1 text-primary"></i>
-                                                        {{ $reservasi->meja_info->name }}
-                                                    </div>
-                                                    {{-- area --}}
-                                                    @if ($reservasi->meja_info->area)
-                                                        <div
-                                                            class="badge bg-light text-secondary border fw-normal d-flex align-items-center px-2">
-                                                            <i class="bi bi-building me-1 text-primary"></i>
-                                                            {{ $reservasi->meja_info->area->name }}
-                                                        </div>
-                                                    @endif
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                @endif
-                            @empty
-                                <div class="text-center text-muted p-5">
-                                    <i class="bi bi-calendar-x fs-2 d-block mb-2"></i>
-                                    <h6 class="fw-bold">Tidak Ada Reservasi</h6>
-                                    <p class="small">Belum ada data untuk hari ini.</p>
-                                </div>
-                            @endforelse
+                            @include('meja.reservasi_list_partial')
                         </div>
                     </div>
                 </div>
-                <div class="col-md-9">
+                <div class="col-md-8 col-lg-8">
                     {{-- meja --}}
                     <div class="manajement-meja p-3">
                         <div class="head row">
@@ -269,50 +186,20 @@
                                     class="btn btn-sm btn-outline-primary rounded px-3"><i
                                         class="bi bi-plus-lg me-1"></i>Tambah Meja</a>
                                 {{-- tempat jadi bisa di teras, di dalam dll --}}
+                                <button class="btn btn-sm btn-dark border border-secondary-subtle filter-area-btn"
+                                    data-id="all">All</button>
                                 @foreach ($areas as $tempat)
-                                    <span
-                                        class="btn btn-sm btn-outline-secondary  border border-secondary-subtle ">{{ $tempat->name }}</span>
+                                    <button
+                                        class="btn btn-sm btn-outline-secondary border border-secondary-subtle filter-area-btn"
+                                        data-id="{{ $tempat->id }}">{{ $tempat->name }}</button>
                                 @endforeach
 
                             </div>
                         </div>
                         <hr>
                         <div class="manajement" style="max-height: 600px; overflow-y: auto; overflow-x: hidden;">
-                            <div class="row g-4">
-                                @foreach ($managementMejas as $meja)
-                                    @php
-                                        $kursi = $meja->jumlah_kursi;
-                                        $terpakai = $meja->terpakai;
-                                        $atas = ceil($kursi / 2);
-                                        $bawah = floor($kursi / 2);
-                                        $statusClass = $terpakai == $kursi ? 'status-occupied' : 'status-available';
-                                    @endphp
-                                    <div class="col-6 col-lg-3">
-                                        <div
-                                            class="meja-wrapper {{ $statusClass }} d-flex flex-column align-items-center">
-                                            <div class="d-flex gap-2 mb-1">
-                                                @for ($i = 0; $i < $atas; $i++)
-                                                    <i
-                                                        class="fas fa-chair chair-icon rotate-180 {{ $statusClass == 'status-occupied' ? 'active' : '' }}"></i>
-                                                @endfor
-                                            </div>
-                                            <div class="meja-content w-100 py-3">
-                                                <h5 class="fw-bold mb-0">{{ $meja->name }}</h5>
-                                                <span class="meja-info">{{ $meja->jumlah_kursi }}/{{ $meja->terpakai }}
-                                                    <i class="bi bi-people-fill"></i></span>
-                                                @if ($meja->area)
-                                                    <span class="meja-info small  d-block">{{ $meja->area->name }}</span>
-                                                @endif
-                                            </div>
-                                            <div class="d-flex gap-2 mt-1">
-                                                @for ($i = 0; $i < $bawah; $i++)
-                                                    <i
-                                                        class="fas fa-chair chair-icon {{ $statusClass == 'status-occupied' ? 'active' : '' }}"></i>
-                                                @endfor
-                                            </div>
-                                        </div>
-                                    </div>
-                                @endforeach
+                            <div class="row g-4" id="meja-list-container">
+                                @include('meja.list_partial')
                             </div>
                         </div>
                     </div>
@@ -334,8 +221,9 @@
                         <input type="hidden" id="akses_meja_id" name="id">
                         <div class="mb-3">
                             <select class="form-select form-select-sm" name="status" id="status_akses">
+                                <option value="pending">Pending</option>
                                 <option value="reservasi">Reservasi</option>
-                                <option value="sedang_digunakan">Sedang Digunakan</option>
+                                <option value="digunakan">Digunakan</option>
                                 <option value="selesai">Selesai</option>
                             </select>
                         </div>
@@ -378,6 +266,63 @@
                     }
                 })
                 .catch(error => console.error('Error:', error));
+        });
+
+        // AJAX Filter Area & Date
+        document.addEventListener('DOMContentLoaded', function() {
+            const filterButtons = document.querySelectorAll('.filter-area-btn');
+            const dateInput = document.getElementById('filter-date');
+            const kategoriSelect = document.getElementById('filter-kategori');
+            const container = document.getElementById('meja-list-container');
+            const reservasiContainer = document.getElementById('reservasi-list-container');
+
+            function fetchData(areaId, date, kategori) {
+                fetch(`{{ route('manajement.meja.filter') }}?area_id=${areaId}&date=${date}&kategori=${kategori}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        container.innerHTML = data.meja_html;
+                        reservasiContainer.innerHTML = data.reservasi_html;
+                    })
+                    .catch(error => {
+                        console.error('Error fetching data:', error);
+                        container.innerHTML =
+                            '<div class="col-12 text-center text-danger">Gagal memuat data meja.</div>';
+                    });
+            }
+
+            filterButtons.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    // Visual feedback: set active class
+                    filterButtons.forEach(b => {
+                        b.classList.remove('btn-dark', 'text-white');
+                        b.classList.add('btn-outline-secondary');
+                    });
+                    this.classList.remove('btn-outline-secondary');
+                    this.classList.add('btn-dark', 'text-white');
+
+                    const areaId = this.getAttribute('data-id');
+                    const date = dateInput.value;
+                    const kategori = kategoriSelect.value;
+                    fetchData(areaId, date, kategori);
+                });
+            });
+
+            dateInput.addEventListener('change', function() {
+                // Ambil area yang sedang aktif
+                const activeBtn = document.querySelector('.filter-area-btn.btn-dark');
+                const areaId = activeBtn ? activeBtn.getAttribute('data-id') : 'all';
+                const date = this.value;
+                const kategori = kategoriSelect.value;
+                fetchData(areaId, date, kategori);
+            });
+
+            kategoriSelect.addEventListener('change', function() {
+                const activeBtn = document.querySelector('.filter-area-btn.btn-dark');
+                const areaId = activeBtn ? activeBtn.getAttribute('data-id') : 'all';
+                const date = dateInput.value;
+                const kategori = this.value;
+                fetchData(areaId, date, kategori);
+            });
         });
     </script>
 @endsection

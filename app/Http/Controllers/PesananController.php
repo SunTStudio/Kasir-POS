@@ -42,8 +42,18 @@ class PesananController extends Controller
         $penjualanans = $query->get();
         // saya ingin memasukan collection deari item penjualan ke $penjualans
         foreach ($penjualanans as $penjualan) {
+            $payment = Payment::where('penjualan_id', $penjualan->id)->get();
+            $penjualan->payment = $payment;
             $itemPenjualanan = ItemPenjualan::where('penjualan_id', $penjualan->id)->get();
             $penjualan->itemPenjualanan = $itemPenjualanan;
+
+            $mejaDetails = AksesMeja::where('penjualan_id', $penjualan->id)
+                ->join('management_mejas', 'akses_mejas.management_meja_id', '=', 'management_mejas.id')
+                ->join('areas', 'management_mejas.area_id', '=', 'areas.id')
+                ->select('management_mejas.name as table_name', 'areas.name as area_name')
+                ->get();
+            $penjualan->meja_details = $mejaDetails;
+
         }
         return view('pesanan.index', compact('penjualanans'));
     }
@@ -51,7 +61,7 @@ class PesananController extends Controller
     /**
      * Show the form for creating a new resource. 
      */
-    public function create()
+    public function create() 
     { 
         $produks = Produk::where('status', true)->get();
         $jenis = Jenis::all();

@@ -12,8 +12,9 @@ class ManagementMejaController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
+        $date = $request->input('date', date('Y-m-d'));
         $areas = Area::all();
         $managementMejas = ManagementMeja::with('area')->get();
         // cek apakah mejanya udah diakses semua melalui cek model akses meja
@@ -22,7 +23,7 @@ class ManagementMejaController extends Controller
             $reservasi = AksesMeja::with('penjualan')
                 ->where('management_meja_id', $managementMeja->id)
                 ->where('status', '!=', 'selesai')
-                ->whereDate('created_at', now()->toDateString())
+                ->whereDate('created_at', $date)
                 ->get();
 
             $managementMeja->reservasi_list = $reservasi;
@@ -93,7 +94,7 @@ class ManagementMejaController extends Controller
     {
         $request->validate([
             'id' => 'required|exists:akses_mejas,id',
-            'status' => 'required|in:sedang_digunakan,selesai,reservasi',
+            'status' => 'required|in:digunakan,selesai,reservasi,pending',
         ]);
 
         $aksesMeja = AksesMeja::findOrFail($request->id);
@@ -101,5 +102,55 @@ class ManagementMejaController extends Controller
         $aksesMeja->save();
 
         return response()->json(['success' => true]);
+    }
+
+    public function filter(Request $request)
+    {
+        $areaId = $request->area_id;
+        $date = $request->input('date', date('Y-m-d'));
+        $kategori = $request->input('kategori', 'all');
+        $query = ManagementMeja::with('area');
+
+        if ($areaId && $areaId != 'all') {
+            $query->where('area_id', $areaId);
+        }
+
+        $managementMejas = $query->get();
+        $allReservations = collect();
+
+        foreach ($managementMejas as $managementMeja) {
+            $reservasiQuery = AksesMeja::with('penjualan')
+                ->where('management_meja_id', $managementMeja->id)
+                ->where('status', '!=', 'selesai')
+                ->whereDate('created_at', $date);
+
+            if ($kategori && $kategori !== 'all') {
+                $searchName = ($kategori === 'reservasi') ? 'Reservasi' : 'Dine In';
+                $reservasiQuery->whereHas('penjualan.jenis', function ($q) use ($searchName) {
+                    $q->where('name', 'like', "%{$searchName}%");
+                });
+            }
+
+            $reservasi = $reservasiQuery->get();
+
+            $managementMeja->reservasi_list = $reservasi;
+            $managementMeja->terpakai = $reservasi->sum('jumlah');
+
+            // Collect reservations for the side list
+            foreach ($reservasi as $res) {
+                $res->meja_info = $managementMeja;
+                $allReservations->push($res);
+            }
+        }
+
+        $allReservations = $allReservations->sortBy('created_at');
+
+        $mejaHtml = view('meja.list_partial', compact('managementMejas'))->render();
+        $reservasiHtml = view('meja.reservasi_list_partial', compact('allReservations'))->render();
+
+        return response()->json([
+            'meja_html' => $mejaHtml,
+            'reservasi_html' => $reservasiHtml
+        ]);
     }
 }

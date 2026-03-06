@@ -98,9 +98,23 @@
 
     <div class="border-bottom"></div>
 
+    @php
+        $subtotal = $penjualan->penjualans->sum(fn($i) => $i->harga * $i->jumlah);
+        $tax = $subtotal * 0.1;
+        $grandTotal = $subtotal + $tax;
+    @endphp
+
+    <div class="d-flex">
+        <span>Subtotal</span>
+        <span>Rp {{ number_format($subtotal, 0, ',', '.') }}</span>
+    </div>
+    <div class="d-flex">
+        <span>PPN (10%)</span>
+        <span>Rp {{ number_format($tax, 0, ',', '.') }}</span>
+    </div>
     <div class="d-flex fw-bold" style="font-size: 14px;">
         <span>TOTAL</span>
-        <span>Rp {{ number_format($penjualan->penjualans->sum(fn($i) => $i->harga * $i->jumlah), 0, ',', '.') }}</span>
+        <span>Rp {{ number_format($grandTotal, 0, ',', '.') }}</span>
     </div>
 
     <div class="border-bottom"></div>

@@ -33,4 +33,27 @@ class AuthController extends Controller
 
         return back()->with('success', 'Password berhasil diperbarui!');
     }
+
+    public function login()
+    {
+        return view('auth.login');
+    }
+
+    public function loginPost(Request $request)
+    {
+        $credentials = $request->only('email', 'password');
+
+        if (Auth::attempt($credentials)) {
+            $request->session()->regenerate();
+            return redirect()->intended(route('dashboard'))->with('success', 'Login berhasil!');
+        }
+
+        return view('auth.login', compact('errors'));
+    }
+
+    public function logout()
+    {
+        Auth::logout();
+        return redirect()->route('login')->with('success', 'Logout berhasil!');
+    }
 }

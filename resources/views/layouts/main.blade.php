@@ -26,154 +26,117 @@
 
     <style>
         body {
-            overflow-x: hidden;
             background-color: #f3f4f6;
             /* Abu-abu muda modern */
             font-family: 'Poppins', sans-serif;
-            font-size: 0.8rem;
-        }
-
-        #wrapper {
-            display: flex;
-        }
-
-        #sidebar-wrapper {
+            font-size: 0.85rem;
+            padding-top: 80px;
             min-height: 100vh;
-            margin-left: -16rem;
-            transition: margin .25s ease-out;
-            width: 16rem;
-            box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.15);
-            z-index: 10;
+            display: flex;
+            flex-direction: column;
         }
 
-        #sidebar-wrapper .sidebar-heading {
-            padding: 0.875rem 1.25rem;
-            font-size: 1.2rem;
-            font-weight: 700;
+        .navbar {
+            backdrop-filter: blur(10px);
+            background-color: rgba(255, 255, 255, 0.95) !important;
         }
 
-        #sidebar-wrapper .list-group {
-            width: 16rem;
-        }
-
-        #page-content-wrapper {
-            min-width: 100vw;
-            width: 100%;
-        }
-
-        /* Custom Style untuk Menu Sidebar Minimalis */
-        .list-group-item {
-            border: none;
-            padding: 1rem 1.5rem;
+        .nav-link {
             font-weight: 500;
-            color: #5a5c69;
-            transition: all 0.3s ease-in-out;
+            color: #555;
+            transition: color 0.2s;
         }
 
-        .list-group-item:hover {
-            background-color: #eef2ff;
-            color: #2e59d9;
-            padding-left: 1.75rem;
-            box-shadow: inset 5px 0 0 #2e59d9;
-        }
-
-        body.sb-sidenav-toggled #wrapper #sidebar-wrapper {
-            margin-left: 0;
-        }
-
-        @media (min-width: 768px) {
-            #sidebar-wrapper {
-                margin-left: 0;
-            }
-
-            #page-content-wrapper {
-                min-width: 0;
-                width: 100%;
-            }
-
-            body.sb-sidenav-toggled #wrapper #sidebar-wrapper {
-                margin-left: -16rem;
-            }
+        .nav-link:hover,
+        .nav-link.active {
+            color: #0d6efd;
         }
     </style>
     @yield('style')
 </head>
 
 <body>
-    <div class="d-flex" id="wrapper">
-        <!-- Sidebar -->
-        <div class="bg-white border-end" id="sidebar-wrapper">
-            <div class="sidebar-heading border-bottom bg-white text-primary"><i class="bi bi-shop me-2"></i>Resto POS
-                Admin</div>
-            <div class="list-group list-group-flush">
-                <a class="list-group-item list-group-item-action bg-white" href="{{ route('dashboard') }}"><i
-                        class="bi bi-speedometer2 me-2"></i>Dashboard</a>
-                <a class="list-group-item list-group-item-action bg-white" href="{{ route('pesanan.create') }}"><i
-                        class="bi bi-cart4 me-2"></i>Buat Pesanan (POS)</a>
-                <a class="list-group-item list-group-item-action bg-white" href="{{ route('manajement.meja') }}"><i
-                        class="bi bi-grid-3x3-gap me-2"></i>Manajemen Meja</a>
-                        {{-- list pesanan --}} 
-                <a class="list-group-item list-group-item-action bg-white" href="{{ route('pesanan') }}"><i
-                        class="bi bi-list-ul me-2"></i>List Pesanan</a>
-                <a class="list-group-item list-group-item-action bg-white" href="{{ route('produk') }}"><i
-                        class="bi bi-book me-2"></i>Daftar Menu</a>
-                <a class="list-group-item list-group-item-action bg-white" href="{{ route('keuangan') }}"><i
-                        class="bi bi-cash-coin me-2"></i>Laporan Keuangan</a>
-                        {{-- kategori --}}
+    <!-- Navbar Fixed Top -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom shadow-sm fixed-top">
+        <div class="container-fluid px-4">
+            <a class="navbar-brand fw-bold text-primary" href="{{ route('dashboard') }}">
+                <i class="bi bi-shop me-2"></i>Resto POS
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent"
+                aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
 
-                <a class="list-group-item list-group-item-action bg-white" href="{{ route('kategori') }}"><i
-                        class="bi bi-tags me-2"></i>Kategori</a>
-                        {{-- jenis Order --}}
-                <a class="list-group-item list-group-item-action bg-white" href="{{ route('jenis.order') }}"><i
-                        class="bi bi-card-list me-2"></i>Jenis Order</a>
-                <a class="list-group-item list-group-item-action bg-white" href="{{ route('profile') }}"><i
-                        class="bi bi-gear me-2"></i>Pengaturan</a> 
-            </div>
-        </div>
-
-        <!-- Page Content Wrapper -->
-        <div id="page-content-wrapper">
-            <!-- Top Navbar -->
-            <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom shadow-sm">
-                <div class="container-fluid">
-                    <button class="btn btn-light text-secondary" id="sidebarToggle">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                        data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-
-                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                        <ul class="navbar-nav ms-auto mt-2 mt-lg-0">
-                            <li class="nav-item active"><a class="nav-link text-secondary" href="#!"><i
-                                        class="bi bi-house-door me-1"></i>Home</a></li>
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle text-secondary" id="navbarDropdown" href="#"
-                                    role="button" data-bs-toggle="dropdown" aria-haspopup="true"
-                                    aria-expanded="false"><i class="bi bi-person-circle me-1"></i>Hi, Admin</a>
-                                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="#!"><i class="bi bi-person me-2"></i>Profile</a>
-                                    <a class="dropdown-item" href="#!"><i
-                                            class="bi bi-sliders me-2"></i>Settings</a>
-                                    <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item" href="#!"><i
-                                            class="bi bi-box-arrow-right me-2"></i>Logout</a>
-                                </div>
-                            </li>
+            <div class="collapse navbar-collapse" id="navbarContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link {{ request()->routeIs('dashboard') ? 'active' : '' }}"
+                            href="{{ route('dashboard') }}"><i class="bi bi-speedometer2 me-1"></i> Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {{ request()->routeIs('pesanan.create') ? 'active' : '' }}"
+                            href="{{ route('pesanan.create') }}"><i class="bi bi-cart4 me-1"></i> POS</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {{ request()->routeIs('pesanan') ? 'active' : '' }}"
+                            href="{{ route('pesanan') }}"><i class="bi bi-list-ul me-1"></i> Pesanan</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {{ request()->routeIs('manajement.meja') ? 'active' : '' }}"
+                            href="{{ route('manajement.meja') }}"><i class="bi bi-grid-3x3-gap me-1"></i> Meja</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle {{ request()->routeIs('produk*') || request()->routeIs('kategori*') || request()->routeIs('jenis.order*') ? 'active' : '' }}"
+                            href="#" id="navbarDropdownMenu" role="button" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                            <i class="bi bi-collection me-1"></i> Master Data
+                        </a>
+                        <ul class="dropdown-menu border-0 shadow-sm" aria-labelledby="navbarDropdownMenu">
+                            <li><a class="dropdown-item" href="{{ route('produk') }}">Daftar Menu</a></li>
+                            <li><a class="dropdown-item" href="{{ route('kategori') }}">Kategori</a></li>
+                            <li><a class="dropdown-item" href="{{ route('jenis.order') }}">Jenis Order</a></li>
                         </ul>
-                    </div>
-                </div>
-            </nav>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {{ request()->routeIs('keuangan') ? 'active' : '' }}"
+                            href="{{ route('keuangan') }}"><i class="bi bi-cash-coin me-1"></i> Laporan</a>
+                    </li>
+                </ul>
 
-            <!-- Main Content -->
-            <div class="container-fluid px-4 py-4">
-                @yield('content')
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle text-secondary" href="#" id="navbarDropdownUser"
+                            role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="bi bi-person-circle me-1"></i> Hi, Admin
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end border-0 shadow-sm"
+                            aria-labelledby="navbarDropdownUser">
+                            <li><a class="dropdown-item" href="{{ route('profile') }}"><i
+                                        class="bi bi-gear me-2"></i>Pengaturan</a></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li><a class="dropdown-item text-danger" href="{{ route('logout') }}"><i
+                                        class="bi bi-box-arrow-right me-2"></i>Logout</a></li>
+                        </ul>
+                    </li>
+                </ul>
             </div>
         </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container-fluid px-4 mb-5">
+        @yield('content')
     </div>
+
+    <footer class="py-4 bg-white mt-auto border-top">
+        <div class="container-fluid px-4 justify-content-center">
+            <div class="d-flex align-items-center justify-content-center small">
+                <div class="text-muted text-center">Copyright &copy; SunStudio {{ date('Y') }}</div>
+            </div>
+        </div>
+    </footer>
 
     <!-- Bootstrap core JS-->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
@@ -186,17 +149,6 @@
     <script src="https://cdn.datatables.net/responsive/2.5.0/js/responsive.bootstrap5.min.js"></script>
 
     <!-- Core theme JS-->
-    <script>
-        window.addEventListener('DOMContentLoaded', event => {
-            const sidebarToggle = document.body.querySelector('#sidebarToggle');
-            if (sidebarToggle) {
-                sidebarToggle.addEventListener('click', event => {
-                    event.preventDefault();
-                    document.body.classList.toggle('sb-sidenav-toggled');
-                });
-            }
-        });
-    </script>
     @yield('script')
 </body>
 
